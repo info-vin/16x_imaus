@@ -96,3 +96,17 @@ This document outlines the development process for the ProjectFlow application, 
   - **Linting & Formatting:** Integrated ESLint and Prettier to enforce a consistent code style and catch potential errors early. Added `lint` and `format` scripts to `package.json`.
   - **Testing Framework:** Set up Vitest as the testing framework and configured it with `jsdom` for a browser-like testing environment. Added a `test` script to `package.json`.
   - **Documentation:** Updated `Manual.md` to reflect the new development commands and best practices.
+
+### Day 17: Analysis of `pages/aus` and Future Recommendations
+
+- **Objective:** Analyze the contents of the `pages/aus` directory and provide recommendations for future development.
+- **Analysis Summary:**
+  - The `pages/aus` directory serves as a comprehensive workspace for the "Fujitec Intelligent Scheduling Project."
+  - It contains a complete record of the development process, including requirements, system analysis, test cases, and contract documents.
+  - The `todo.md` file outlines a plan to create a Kanban-style web application using TypeScript for task management, based on the requirements in `151_require/V1.1.1.md`.
+- **Development Recommendations:**
+  - **Restructure Project Files:** To maintain a clean project structure, the `pages/aus` directory, which contains project artifacts rather than runtime pages, should be relocated to a more suitable location, such as a new `docs` or `archive` folder at the project root.
+  - **Leverage Existing Code for Kanban Board:** Instead of building a new Kanban application from scratch, the development team should extend the existing `team-task-manager` codebase. The next step is to implement a Kanban view with columns (e.g., "To Do," "In Progress," "Done") for displaying tasks.
+  - **Integrate Task Data:** A migration script or a one-time import function should be created to parse the task items from `151_require/V1.1.1.md` and load them into the application's Zustand store.
+  - **Clarify Asset Purpose:** The team needs to determine the purpose of the HTML files in the `152_SA` and `153_testCase` directories. Depending on whether they are mockups, prototypes, or documentation, they can be integrated, referenced, or archived.
+  - **Consolidate Documentation:** All project-related documentation, currently spread across multiple files (`GEMINI.md`, `Manual.md`, and files in `pages/aus`), should be consolidated into a unified system. Using a dedicated `docs` folder or a documentation generator tool is recommended.
