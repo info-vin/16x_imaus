@@ -135,3 +135,154 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 3.  **建立任務：** 點擊「新增任務」按鈕會彈出一個視窗，您可以在其中填寫任務詳情。
 4.  **管理任務：** 使用篩選器來搜尋、按狀態或優先級篩選，以及在「我的任務」和「全部任務」之間切換。
 5.  **導入/導出資料：** 使用頭部選單中的上傳/下載圖示，可以將您的任務列表備份到一個 JSON 檔案，或從備份檔中還原。所有資料都會儲存在您瀏覽器的 Local Storage 中。
+
+---
+
+# 開發者技術指南 (Developer's Technical Guide)
+
+本指南為熟悉終端機操作的開發者（包含前端與後端工程師）提供更深入的技術說明。
+
+## 環境安裝與設定 (Local Development Setup)
+
+專案使用 Node.js 與 npm 進行依賴管理，並透過 Vite 作為開發與建置工具。
+
+**前置要求:**
+
+-   安裝 [Node.js](https://nodejs.org/) (LTS 版本為佳)，npm 會一併安裝。
+-   熟悉基本的終端機 (Command Line) 操作。
+
+**安裝流程:**
+
+1.  **Clone 專案庫**
+    ```bash
+    git clone <repository_url>
+    cd team-task-manager
+    ```
+
+2.  **安裝依賴套件**
+    此指令會讀取 `package.json` 中的 `dependencies` 與 `devDependencies`，並將所有套件安裝至 `node_modules` 資料夾。
+    ```bash
+    npm install
+    ```
+
+3.  **啟動開發伺服器**
+    此指令會啟動 Vite 開發伺服器，支援熱模組替換 (HMR)，實現快速開發。
+    ```bash
+    npm run dev
+    ```
+    -   伺服器通常運行在 `http://localhost:5173`。
+    -   若要停止伺服器，請在終端機按下 `Ctrl + C`。
+
+**其他重要指令:**
+
+-   **查詢套件資訊**: 檢視已安裝套件的詳細資訊。
+    ```bash
+    npm list <package_name>
+    ```
+-   **安裝新套件**:
+    -   安裝到 `dependencies` (執行時依賴):
+        ```bash
+        npm install <package_name>
+        ```
+    -   安裝到 `devDependencies` (開發時依賴):
+        ```bash
+        npm install <package_name> --save-dev
+        ```
+-   **移除套件**:
+    ```bash
+    npm uninstall <package_name>
+    ```
+
+## 專案架構解析 (Project Structure)
+
+<details> <summary>點擊展開/收合目錄結構</summary>
+
+```bash
+.
+├── .github/            # GitHub Actions 工作流程 (CI/CD)
+├── dist/               # (建置後產生) 生產環境的靜態檔案
+├── node_modules/       # (npm install 後產生) 專案依賴套件
+├── public/             # 靜態資源，會被直接複製到 dist 目錄
+├── src/                # 應用程式原始碼
+│   ├── components/     # React 元件 (UI 組件)
+│   │   ├── icons/      # SVG 圖示元件
+│   │   └── ...
+│   ├── i18n/           # 國際化 (i18next) 設定與翻譯檔
+│   │   ├── en-US.json
+│   │   └── ...
+│   ├── stores/         # 狀態管理 (Zustand)
+│   │   └── appStore.ts # 全域狀態儲存
+│   ├── styles/         # 全域樣式與 CSS 變數
+│   │   └── index.css
+│   ├── types/          # TypeScript 型別定義
+│   │   └── index.ts
+│   ├── utils/          # 共用工具函式
+│   │   └── storage.ts  # LocalStorage 抽象層
+│   ├── App.tsx         # 應用程式主元件
+│   └── main.tsx        # 應用程式進入點
+├── .eslintrc.cjs       # ESLint 設定檔 (程式碼品質)
+├── .prettierrc         # Prettier 設定檔 (程式碼格式化)
+├── index.html          # 應用程式 HTML 入口
+├── package.json        # 專案定義與 npm 腳本
+├── tsconfig.json       # TypeScript 編譯器設定
+└── vite.config.ts      # Vite 建置工具設定
+```
+
+</details>
+
+### 核心概念與開發提示 (Core Concepts & Tips)
+
+-   **狀態管理 (`/src/stores/appStore.ts`)**: 
+    -   本專案使用 `Zustand` 進行全域狀態管理，它以輕量、易用著稱。
+    -   `appStore` 集中管理了所有核心資料，如 `tasks`, `currentUser`, `filters` 等。
+    -   所有對資料的操作 (新增、修改、刪除任務) 都應透過 store 中的 actions 進行，以確保資料流的單向與可預測性。
+
+-   **資料持久化 (`/src/utils/storage.ts`)**:
+    -   應用程式的狀態 (如任務列表、目前使用者) 會透過 `storage.ts` 存儲在瀏覽器的 `localStorage` 中。
+    -   這使得使用者在重新整理頁面後，資料依然存在。
+    -   `Zustand` 的 `persist` middleware 簡化了這個過程。
+
+-   **環境變數 (`/.env.local`)**:
+    -   若有需要區分開發與生產環境的變數 (例如 API 金鑰)，可以建立 `.env.local` 檔案。
+    -   Vite 會自動載入這些變數。變數必須以 `VITE_` 開頭，例如 `VITE_API_URL=http://localhost:3000`。
+    -   這些變數可以透過 `import.meta.env.VITE_API_URL` 在程式碼中存取。
+
+## 日常開發流程 (Daily Development Workflow)
+
+以下為建議的日常開發與提交程式碼的流程。
+
+1.  **啟動開發環境**:
+    ```bash
+    # 確保已安裝最新依賴
+    npm install
+
+    # 啟動開發伺服器
+    npm run dev
+    ```
+
+2.  **進行程式碼開發**:
+    -   在 `src` 目錄下進行功能開發或修復錯誤。
+    -   Vite 的 HMR 會即時更新畫面，方便預覽。
+
+3.  **提交前進行品質檢查**:
+    在準備提交程式碼前，執行以下指令確保品質。
+    ```bash
+    # 檢查程式碼風格問題
+    npm run lint
+
+    # 自動修正可修復的格式問題
+    npm run format
+
+    # 執行所有測試，確保沒有破壞現有功能
+    npm run test
+    ```
+
+4.  **建置生產版本 (可選)**:
+    若要預覽生產環境的最終成果，可以執行建置指令。
+    ```bash
+    # 此指令會將優化過的靜態檔案輸出到 /dist 目錄
+    npm run build
+
+    # (可選) 預覽建置後的成果
+    npm run preview
+    ```

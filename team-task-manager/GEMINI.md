@@ -110,3 +110,21 @@ This document outlines the development process for the ProjectFlow application, 
   - **Integrate Task Data:** A migration script or a one-time import function should be created to parse the task items from `151_require/V1.1.1.md` and load them into the application's Zustand store.
   - **Clarify Asset Purpose:** The team needs to determine the purpose of the HTML files in the `152_SA` and `153_testCase` directories. Depending on whether they are mockups, prototypes, or documentation, they can be integrated, referenced, or archived.
   - **Consolidate Documentation:** All project-related documentation, currently spread across multiple files (`GEMINI.md`, `Manual.md`, and files in `pages/aus`), should be consolidated into a unified system. Using a dedicated `docs` folder or a documentation generator tool is recommended.
+
+### Day 18: Development and Testing Environment Setup
+
+- **Objective:** Define and document the detailed operational steps for the development and testing environments.
+- **Analysis:**
+  - Reviewed `gost_ENV_INIT.md` and `網頁專案轉型登陸頁面_.md`. The former describes a Python-based environment (`Poetry`, `Conda`), which does not match the current Node.js-based project. The latter is a high-level strategic guide.
+  - The current project is a standard Vite/React application.
+- **Development Environment Steps:**
+  1.  **Install Dependencies:** Run `npm install` to download all required packages from `package.json`.
+  2.  **Start Development Server:** Run `npm run dev` to start the Vite server, which provides a live-preview environment with Hot Module Replacement (HMR). The application is typically available at `http://localhost:5173`.
+- **Testing Environment Steps:**
+  - The project includes scripts for maintaining code quality and running tests:
+    - `npm run lint`: Checks for code style issues and potential errors using ESLint.
+    - `npm run format`: Automatically formats all project files using Prettier.
+    - `npm run test`: Executes all unit and component tests using Vitest.
+- **Documentation Update:**
+  - Confirmed that `Manual.md` already contains clear and accurate instructions for these steps.
+  - Updated this `GEMINI.md` file to log today's analysis and document the standardized procedures.
