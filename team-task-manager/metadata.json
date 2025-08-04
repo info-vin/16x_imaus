@@ -1,0 +1,6 @@
+{
+  "name": "ProjectFlow - Team Task Manager",
+  "description": "A streamlined task management application for small teams, designed for rapid deployment and ease of use. It supports multilingual capabilities, local data storage, and essential project tracking features.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}
