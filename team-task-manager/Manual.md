@@ -208,9 +208,8 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 │   ├── components/     # React 元件 (UI 組件)
 │   │   ├── icons/      # SVG 圖示元件
 │   │   └── ...
-│   ├── i18n/           # 國際化 (i18next) 設定與翻譯檔
-│   │   ├── en-US.json
-│   │   └── ...
+│   ├── i18n/           # 國際化 (i18next) 設定
+│   │   └── index.ts    # i18next 初始化設定
 │   ├── stores/         # 狀態管理 (Zustand)
 │   │   └── appStore.ts # 全域狀態儲存
 │   ├── styles/         # 全域樣式與 CSS 變數

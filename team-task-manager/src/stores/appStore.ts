@@ -8,6 +8,7 @@ import { STORAGE_KEYS, TEAM_MEMBERS } from '../constants';
 interface AppState {
   tasks: Task[];
   currentUser: User | null;
+  viewMode: 'list' | 'kanban';
   filters: {
     search: string;
     status: Status | 'all';
@@ -27,11 +28,13 @@ interface AppState {
   setFilter: (filterName: keyof AppState['filters'], value: string) => void;
   getTasksForExport: () => Task[];
   importData: (tasks: Task[]) => void;
+  setViewMode: (mode: 'list' | 'kanban') => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
   tasks: [],
   currentUser: null,
+  viewMode: 'list',
   filters: {
     search: '',
     status: 'all',
@@ -111,4 +114,6 @@ export const useAppStore = create<AppState>((set, get) => ({
     set({ tasks: tasksToImport });
     saveToStorage(STORAGE_KEYS.TASKS, tasksToImport);
   },
+
+  setViewMode: (mode) => set({ viewMode: mode }),
 }));

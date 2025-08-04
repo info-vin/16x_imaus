@@ -148,6 +148,12 @@ This document outlines the development process for the ProjectFlow application, 
     - **Actual Result:** The browser successfully returned to the main application.
     - **Status:** <font color="green">Passed</font>
 
+### Day 21: Project File Restructuring
+
+- **Objective:** Relocate project artifacts from the `docs` directory to a more appropriate `archive` directory.
+- **Action:** Moved the `docs/pages/aus` directory, which contains historical project documents and development records, to `archive/aus`.
+- **Reason:** This change aligns with the recommendation from the Day 17 analysis to clean up the project structure by separating runtime documentation from historical artifacts.
+
 ### Day 20: Fix Language Switching
 
 - **Objective:** Resolve the issue where language switching was unresponsive.
