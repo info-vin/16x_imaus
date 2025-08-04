@@ -128,3 +128,22 @@ This document outlines the development process for the ProjectFlow application, 
 - **Documentation Update:**
   - Confirmed that `Manual.md` already contains clear and accurate instructions for these steps.
   - Updated this `GEMINI.md` file to log today's analysis and document the standardized procedures.
+
+### Day 19: Fix Navigation to home.html
+
+- **Objective:** Fix the broken link to `home.html` and the return link to the main application.
+- **Issue:** The "Home" button in the header linked to a non-existent path, and the return link in `home.html` was also incorrect.
+- **Fix:**
+  - **Forward Link:** Modified `src/components/Header.tsx` to change the `href` of the "Home" button to `/docs/pages/ai/home.html`.
+  - **Return Link:** Updated `docs/pages/ai/home.html` to change the `href` of the "整合儀表板 v1.3" link to `/index.html`, ensuring it correctly navigates back to the root of the application.
+- **Testing:**
+  - **Test Case 1: Navigate to home.html:**
+    - **Action:** Click the "Home" button (external link icon) in the application header.
+    - **Expected Result:** The browser navigates to `/docs/pages/ai/home.html`.
+    - **Actual Result:** The browser successfully navigated to the correct page.
+    - **Status:** <font color="green">Passed</font>
+  - **Test Case 2: Return to Main Application:**
+    - **Action:** On the `home.html` page, click the "整合儀表板 v1.3" link.
+    - **Expected Result:** The browser navigates back to the main application (`/index.html`).
+    - **Actual Result:** The browser successfully returned to the main application.
+    - **Status:** <font color="green">Passed</font>

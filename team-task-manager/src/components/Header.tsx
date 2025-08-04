@@ -24,7 +24,7 @@ const Header: React.FC = () => {
           </div>
           <div className="flex items-center gap-2 sm:gap-4"> 
             <a
-              href="/pages/ai/Home.html"
+              href="/docs/pages/ai/home.html"
               title={t('navigateToBCD')}
               className="flex items-center justify-center w-10 h-10 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white transition"
             >
