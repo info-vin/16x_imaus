@@ -65,6 +65,10 @@ Once the application is running in your browser:
 3.  **Create Tasks:** Click the "New Task" button to open a modal and fill in the task details.
 4.  **Manage Tasks:** Use the filter controls to search, filter by status or priority, and switch between "My Tasks" and "All Tasks".
 5.  **Import/Export Data:** Use the upload/download icons in the header to back up your task list to a JSON file or restore it from a backup. All data is saved in your browser's local storage.
+6.  **Batch Import for Developers:** To quickly populate tasks for testing, you can run the pre-made import script. Open your browser's developer console and execute the following command:
+    ```javascript
+    fetch('/import-tasks.js').then(r => r.text()).then(eval);
+    ```
 
 ---
 
@@ -135,6 +139,10 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 3.  **建立任務：** 點擊「新增任務」按鈕會彈出一個視窗，您可以在其中填寫任務詳情。
 4.  **管理任務：** 使用篩選器來搜尋、按狀態或優先級篩選，以及在「我的任務」和「全部任務」之間切換。
 5.  **導入/導出資料：** 使用頭部選單中的上傳/下載圖示，可以將您的任務列表備份到一個 JSON 檔案，或從備份檔中還原。所有資料都會儲存在您瀏覽器的 Local Storage 中。
+6.  **開發者批次匯入:** 若需快速填充測試任務，可執行預先準備的匯入腳本。請打開瀏覽器的開發者主控台，並執行以下指令：
+    ```javascript
+    fetch('/import-tasks.js').then(r => r.text()).then(eval);
+    ```
 
 ---
 

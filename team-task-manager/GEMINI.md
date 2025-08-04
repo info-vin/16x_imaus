@@ -177,3 +177,21 @@ This document outlines the development process for the ProjectFlow application, 
     - **Expected Result:** The UI text updates to English.
     - **Actual Result:** The UI correctly updated to English.
     - **Status:** <font color="green">Passed</font>
+
+### Day 22: User Login Simulation & Task Import
+
+- **Objective:** Add a new user and bulk-import their initial tasks.
+- **Action:**
+  1.  Added a new user, "vincent", to the `TEAM_MEMBERS` constant in `src/constants.ts`.
+  2.  Created a script, `public/import-tasks.js`, to programmatically add eight weeks of tasks for the new user, based on the project plan in `V1.1.1.md`.
+- **Testing:**
+  - **Test Case 1: User Appears in Selector:**
+    - **Action:** Run the application and open the user selector.
+    - **Expected Result:** The new user "vincent" is available for selection.
+    - **Actual Result:** "vincent" appears in the list.
+    - **Status:** <font color="green">Passed</font>
+  - **Test Case 2: Task Import Execution:**
+    - **Action:** Execute the `import-tasks.js` script from the browser's developer console.
+    - **Expected Result:** Eight new tasks are added to the application and assigned to "vincent".
+    - **Actual Result:** The tasks were successfully imported and are visible in the task list when "vincent" is selected.
+    - **Status:** <font color="green">Passed</font>

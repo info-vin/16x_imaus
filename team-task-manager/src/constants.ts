@@ -43,6 +43,13 @@ export const TEAM_MEMBERS: User[] = [
     email: 'maria@company.com',
     avatar: 'https://i.pravatar.cc/150?u=6',
   },
+  {
+    id: 7,
+    name: 'vincent',
+    initials: 'V',
+    email: 'vincent@example.com',
+    avatar: 'https://i.pravatar.cc/150?u=7',
+  },
 ];
 
 export const STORAGE_KEYS = {
