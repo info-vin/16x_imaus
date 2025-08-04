@@ -16,7 +16,7 @@ i18n
     // The backend will load from ./i18n/en-US.json, etc.
     // This path is relative to index.html.
     backend: {
-      loadPath: './i18n/{{lng}}.json',
+      loadPath: '/locales/{{lng}}.json',
     },
     detection: {
       // Order and from where user language should be detected

@@ -147,3 +147,27 @@ This document outlines the development process for the ProjectFlow application, 
     - **Expected Result:** The browser navigates back to the main application (`/index.html`).
     - **Actual Result:** The browser successfully returned to the main application.
     - **Status:** <font color="green">Passed</font>
+
+### Day 20: Fix Language Switching
+
+- **Objective:** Resolve the issue where language switching was unresponsive.
+- **Issue:** The `i18next-http-backend` was unable to load translation files because the path was incorrect after the project restructuring.
+- **Fix:**
+  - **Relocated Files:** Moved the translation files (e.g., `en-US.json`) to the `public/locales/` directory.
+  - **Updated Path:** Corrected the `loadPath` in the i18next configuration (`src/i18n/index.ts`) to `'/locales/{{lng}}.json'`, allowing the backend to fetch them via HTTP.
+- **Testing:**
+  - **Test Case 1: Switch to Traditional Chinese:**
+    - **Action:** Click the language selector and choose "繁體中文".
+    - **Expected Result:** The UI text updates to Traditional Chinese.
+    - **Actual Result:** The UI correctly updated to Traditional Chinese.
+    - **Status:** <font color="green">Passed</font>
+  - **Test Case 2: Switch to Japanese:**
+    - **Action:** Click the language selector and choose "日本語".
+    - **Expected Result:** The UI text updates to Japanese.
+    - **Actual Result:** The UI correctly updated to Japanese.
+    - **Status:** <font color="green">Passed</font>
+  - **Test Case 3: Switch back to English:**
+    - **Action:** Click the language selector and choose "English".
+    - **Expected Result:** The UI text updates to English.
+    - **Actual Result:** The UI correctly updated to English.
+    - **Status:** <font color="green">Passed</font>

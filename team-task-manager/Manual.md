@@ -203,6 +203,7 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 ├── dist/               # (建置後產生) 生產環境的靜態檔案
 ├── node_modules/       # (npm install 後產生) 專案依賴套件
 ├── public/             # 靜態資源，會被直接複製到 dist 目錄
+│   └── locales/      # 國際化 (i18next) 翻譯檔
 ├── src/                # 應用程式原始碼
 │   ├── components/     # React 元件 (UI 組件)
 │   │   ├── icons/      # SVG 圖示元件
