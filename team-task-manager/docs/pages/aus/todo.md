@@ -62,13 +62,14 @@ As mentioned in last month's Hsinchu facility meeting, the SAS Viya Flow Managem
 * Exception alerting
 
 ### Recommendation:
-Unless the customer specifically prioritizes understanding the File I/O dependencies between IPA and RPA integration, we suggest focusing the initial PoC on:
-
-* Core SAS Viya analytics and scheduling capabilities
-* Data integration and validation
-* Workflow management using SAS Viya's native interface
-
-This approach ensures a solid foundation before adding the complexity of RPA integration.
-Would you like to discuss this approach further, or does the customer have specific requirements for IPA/RPA integration that we should prioritize?
-Best regards,
-Vincent
+你是一位全端網站的設計師 @GEMINI.md @網頁專案轉型登陸頁面_.md,
+深入思考如何設計index.tsx:
+1. 保留全網站都能多語系, 例如: 英文, 中文, 日文, 韓文, 越南文等.
+2. 網站設計要能夠新增使用者, 例如: 註冊, 登入, 忘記密碼等.
+3. 網站設計要符合台灣的法律規定, 例如: 隱私權保護, 安全保護等.
+4. 網站設計要多增加哪些免費的小型資料庫. 
+5. 網站設計可以直接上傳網頁檔案, 例如: 上傳csv檔案, 上傳pdf檔案等.
+6. 考慮同樣的架構下增加"ai"是一種產品,"AUS"是另一種產品.
+等主管確認完你的設計說明後:
+1. 將說明更新至@GEMINI.md 再commit dev分支.
+2. 新增branch feature分支,切換feature在開始修改程式,並將測試結果更新至@GEMINI.md.

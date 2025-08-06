@@ -7,6 +7,8 @@ const languages = [
   { code: 'en-US', name: 'English', flag: '🇺🇸' },
   { code: 'zh-TW', name: '繁體中文', flag: '🇹🇼' },
   { code: 'ja-JP', name: '日本語', flag: '🇯🇵' },
+  { code: 'ko-KR', name: '한국어', flag: '🇰🇷' },
+  { code: 'vi-VN', name: 'Tiếng Việt', flag: '🇻🇳' },
 ];
 
 const LanguageSelector: React.FC = () => {

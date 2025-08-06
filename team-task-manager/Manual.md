@@ -39,9 +39,11 @@ This project uses a Node.js-based build system (Vite). You need to install depen
 2.  The server will start and provide a local URL, usually `http://localhost:5173`. Open this URL in your browser.
 3.  The application will now run in hot-reload mode.
 
-## 4. Development Tasks
+## 4. Development Tasks and Testing
 
 This project is equipped with tools to ensure code quality and test coverage.
+
+### 4.1 Code Quality Tools
 
 - **Linting:** To check the code for style issues and potential errors, run:
   ```bash
@@ -55,6 +57,28 @@ This project is equipped with tools to ensure code quality and test coverage.
   ```bash
   npm run test
   ```
+
+### 4.2 Recent Test Cases and Results
+
+1. **Language Switching Test**
+   - Test Case: Switch between English, Traditional Chinese, and Japanese
+   - Results: ✅ All language switches work correctly
+   - Verified: UI updates properly for all supported languages
+
+2. **User Selection Test**
+   - Test Case: New user "vincent" appears in selector
+   - Results: ✅ User successfully added and selectable
+   - Verified: User appears in list and can be selected
+
+3. **Task Import Test**
+   - Test Case: Import tasks using browser console script
+   - Results: ✅ Tasks successfully imported
+   - Verified: Eight new tasks added and visible when "vincent" is selected
+
+4. **Navigation Test**
+   - Test Case: Navigate to home.html and return to main application
+   - Results: ✅ Navigation works in both directions
+   - Verified: Links correctly point to `/docs/pages/ai/home.html` and `/index.html`
 
 ## 5. How to Use the Application
 
