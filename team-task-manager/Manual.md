@@ -335,10 +335,10 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
     - 在終端機中，導航到 `server` 目錄。
     - 執行以下指令來啟動 PostgreSQL 資料庫容器：
       ```bash
-      docker-compose up -d
+      docker compose up -d
       ```
     - 此指令會以後台模式啟動一個名為 `task-manager-db` 的資料庫容器，並將資料持久化儲存在 `postgres_data` volume 中。
-    - 若要停止資料庫容器，可以執行 `docker-compose down`。
+    - 若要停止資料庫容器，可以執行 `docker compose down`。
 
 2.  **初始化資料庫 (Initialize the Database):**
     首次啟動資料庫容器後，您需要建立應用程式所需的資料表。
