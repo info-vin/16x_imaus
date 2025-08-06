@@ -351,10 +351,26 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
     - 安裝完成後，請確保 PostgreSQL 服務正在運行，並手動建立一個名為 `task_manager` 的資料庫。您可能還需要修改 `server/db.js` 中的連線資訊 (主機、埠、使用者、密碼) 以符合您的本地設定。
 
 2.  **初始化資料庫 (Initialize the Database):**
-    首次啟動資料庫容器後，您需要建立應用程式所需的資料表。
-    - 您可以使用任何 PostgreSQL 客戶端工具 (如 `psql`, DBeaver, pgAdmin) 連接到資料庫。
-    - 連線資訊可在 `server/docker-compose.yml` 和 `server/db.js` 中找到 (預設密碼: `password`)。
-    - 執行 `server/database.sql` 檔案中的 SQL 指令來建立 `users` 和 `tasks` 資料表。
+    首次啟動資料庫後，您需要建立應用程式所需的資料表。我們推薦使用 `psql` 命令列工具來執行初始化腳本。
+
+    **前置要求:**
+    - **安裝 psql:** `psql` 通常會與 PostgreSQL 一同安裝。如果您是手動安裝 PostgreSQL，請確保其 `bin` 目錄已加入到您的系統路徑 (PATH) 中。如果您使用 Docker，則無需在本地安裝，可直接在容器內執行。
+
+    **初始化步驟:**
+
+    - **方法一：使用 Docker (建議)**
+      執行以下指令，它會將 `server/database.sql` 檔案的內容傳送給在 Docker 容器中運行的 `psql` 來執行。
+      ```bash
+      docker exec -i task-manager-db psql -U postgres -d task_manager < server/database.sql
+      ```
+
+    - **方法二：使用本地 psql (替代方案)**
+      如果您是手動安裝的 PostgreSQL，請執行以下指令。系統可能會提示您輸入 `postgres` 使用者的密碼。
+      ```bash
+      psql -U postgres -d task_manager -f server/database.sql
+      ```
+
+    - **驗證:** 無論使用哪種方法，執行後都不應看到任何錯誤訊息。您可以連線到資料庫，使用 `\dt` 指令來確認 `users` 和 `tasks` 資料表是否已成功建立。
 
 2.  **啟動後端伺服器 (Start the Backend Server):**
     在終端機中，導航到 `server` 目錄並執行以下指令。預期應看到伺服器在 port 3001 上成功運行的日誌。
