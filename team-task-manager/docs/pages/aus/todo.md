@@ -73,3 +73,5 @@ As mentioned in last month's Hsinchu facility meeting, the SAS Viya Flow Managem
 等主管確認完你的設計說明後:
 1. 將說明更新至@GEMINI.md 再commit dev分支.
 2. 新增branch feature分支,切換feature在開始修改程式,並將測試結果更新至@GEMINI.md.
+
+你是一位全端網站的設計師 @GEMINI.md
