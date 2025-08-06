@@ -326,19 +326,29 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 **測試環境準備 (Test Environment Setup):**
 
 1.  **啟動資料庫 (Start the Database):**
-    我們建議使用 Docker 來簡化資料庫的設定流程，以確保開發環境的一致性。
 
     **前置要求:**
-    - 安裝 [Docker](https://www.docker.com/products/docker-desktop/) 並確保其正在運行。
+    - **安裝 Docker:** 本專案的後端服務依賴 PostgreSQL 資料庫。為簡化設定並確保環境一致，我們強烈建議使用 Docker 來運行資料庫。請先根據您的作業系統，從 [Docker 官方網站](https://www.docker.com/products/docker-desktop/)下載並安裝 Docker Desktop，並確保其正在背景運行。
 
-    **啟動步驟:**
-    - 在終端機中，導航到 `server` 目錄。
-    - 執行以下指令來啟動 PostgreSQL 資料庫容器：
+    **方法一：使用 Docker 啟動 (建議)**
+
+    - **啟動容器:** 在終端機中，導航到 `server` 目錄，然後執行以下指令：
       ```bash
       docker compose up -d
       ```
-    - 此指令會以後台模式啟動一個名為 `task-manager-db` 的資料庫容器，並將資料持久化儲存在 `postgres_data` volume 中。
-    - 若要停止資料庫容器，可以執行 `docker compose down`。
+      此指令會以後台模式啟動一個名為 `task-manager-db` 的 PostgreSQL 資料庫容器。資料將會被持久化儲存，即使關閉容器也不會遺失。
+
+    - **停止容器:** 若要停止資料庫，可以執行：
+      ```bash
+      docker compose down
+      ```
+
+    **方法二：手動安裝 PostgreSQL (替代方案)**
+
+    如果您無法或不想使用 Docker，也可以在您的系統上手動安裝 PostgreSQL。
+    - **macOS:** 建議使用 [Homebrew](https://brew.sh/) 進行安裝：`brew install postgresql`
+    - **Windows:** 可從 [PostgreSQL 官方網站](https://www.postgresql.org/download/windows/)下載安裝程式。
+    - 安裝完成後，請確保 PostgreSQL 服務正在運行，並手動建立一個名為 `task_manager` 的資料庫。您可能還需要修改 `server/db.js` 中的連線資訊 (主機、埠、使用者、密碼) 以符合您的本地設定。
 
 2.  **初始化資料庫 (Initialize the Database):**
     首次啟動資料庫容器後，您需要建立應用程式所需的資料表。
