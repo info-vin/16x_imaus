@@ -318,3 +318,52 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
     # (可選) 預覽建置後的成果
     npm run preview
     ```
+
+---
+
+## 使用者認證功能測試計畫 (User Authentication Test Plan)
+
+**測試環境準備 (Test Environment Setup):**
+
+1.  **啟動資料庫 (Start the Database):**
+    確保您的 PostgreSQL 資料庫正在運行，並且已使用 `server/database.sql` 腳本創建了 `task_manager` 資料庫及相應的 `users` 和 `tasks` 表。
+
+2.  **啟動後端伺服器 (Start the Backend Server):**
+    在終端機中，導航到 `server` 目錄並執行以下指令。預期應看到伺服器在 port 3001 上成功運行的日誌。
+    ```bash
+    npm start
+    ```
+
+3.  **啟動前端應用 (Start the Frontend Application):**
+    在另一個終端機中，於專案根目錄執行以下指令。
+    ```bash
+    npm run dev
+    ```
+
+---
+
+**測試案例 1: 使用者註冊 (Test Case 1: User Registration)**
+
+*   **步驟 (Steps):**
+    1.  打開瀏覽器，訪問 `http://localhost:5173/register`。
+    2.  在註冊表單中，輸入一個新的使用者名稱、電子郵件地址和密碼。
+    3.  點擊 "Register" 按鈕。
+*   **預期結果 (Expected Results):**
+    1.  頁面應成功跳轉到主頁 (`/`)。
+    2.  打開瀏覽器的開發者工具 (Developer Tools)，在 "Application" -> "Local Storage" 中，應能看到一個名為 `token` 的項目，其值為一個 JWT 字串。
+    3.  在後端資料庫的 `users` 表中，應能查詢到一條對應的新使用者紀錄，其密碼欄位應為一段加密後的雜湊值。
+*   **狀態 (Status):** <font color="blue">待手動驗證 (Awaiting Manual Verification)</font>
+
+---
+
+**測試案例 2: 使用者登入 (Test Case 2: User Login)**
+
+*   **步驟 (Steps):**
+    1.  (如果已登入) 請先清除瀏覽器的 Local Storage。
+    2.  打開瀏覽器，訪問 `http://localhost:5173/login`。
+    3.  在登入表單中，輸入上一步驟中註冊的電子郵件地址和密碼。
+    4.  點擊 "Login" 按鈕。
+*   **預期結果 (Expected Results):**
+    1.  頁面應成功跳轉到主頁 (`/`)。
+    2.  在瀏覽器的 Local Storage 中，應再次看到一個新的 `token`。
+*   **狀態 (Status):** <font color="blue">待手動驗證 (Awaiting Manual Verification)</font>
