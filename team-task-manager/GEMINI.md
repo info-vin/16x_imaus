@@ -392,3 +392,9 @@ This document outlines the development process for the ProjectFlow application, 
   2.  **Logo Update:**
       - Replaced the existing `logo.svg` with a new, Frieren-inspired design to better reflect the desired aesthetic.
 - **Reason:** These changes improve the application's usability by placing controls in more logical locations and enhance the brand identity with a more thematic logo.
+
+### Day 31: Backend UI Clarification
+
+- **Objective:** Clarify that the backend is an API-only service and does not have a graphical user interface.
+- **Action:** Added a note to the `GEMINI.md` to explicitly state that the backend provides API endpoints and does not have a UI.
+- **Reason:** To avoid confusion and set proper expectations regarding the backend's functionality.
