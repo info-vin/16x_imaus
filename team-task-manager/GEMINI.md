@@ -398,3 +398,9 @@ This document outlines the development process for the ProjectFlow application, 
 - **Objective:** Clarify that the backend is an API-only service and does not have a graphical user interface.
 - **Action:** Added a note to the `GEMINI.md` to explicitly state that the backend provides API endpoints and does not have a UI.
 - **Reason:** To avoid confusion and set proper expectations regarding the backend's functionality.
+
+### Day 32: Admin Panel Design
+
+- **Objective:** Design a dedicated admin panel for managing users and tasks.
+- **Action:** Outlined a detailed design for a new admin panel, including frontend components, backend API endpoints, and permission control mechanisms.
+- **Reason:** To provide a centralized management interface, improve data management efficiency and security, and lay the groundwork for future system expansion.
