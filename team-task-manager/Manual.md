@@ -379,10 +379,10 @@ docker exec -i task-manager-db psql -U postgres -d task_manager < server/databas
 
 在同一個終端機中 (仍在專案根目錄)，執行以下指令來啟動後端 Node.js 伺服器：
 ```bash
-npm start --prefix server
+cd server && npm start
 ```
 *   您應該會看到伺服器在 port 3001 上成功運行的日誌。
-*   **如果遇到 `bcrypt` 相關錯誤 (例如 `ERR_DLOPEN_FAILED`)，請在 `server` 目錄下執行 `npm rebuild bcrypt`，然後再次嘗試啟動伺服器。**
+*   **如果遇到 `bcrypt` 相關錯誤 (例如 `ERR_DLOPEN_FAILED`)，請`cd team-task-manager/server && rm -rf node_modules && npm install`，然後再次嘗試啟動伺服器。**
 *   請讓此終端機保持開啟。
 
 **步驟四：啟動前端應用**
