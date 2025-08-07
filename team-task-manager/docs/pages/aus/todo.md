@@ -69,6 +69,5 @@ Unless the customer specifically prioritizes understanding the File I/O dependen
 * Workflow management using SAS Viya's native interface
 
 This approach ensures a solid foundation before adding the complexity of RPA integration.
-Would you like to discuss this approach further, or does the customer have specific requirements for IPA/RPA integration that we should prioritize?
-Best regards,
-Vincent
+
+
