@@ -1,18 +1,21 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import FilterControls from '../components/FilterControls';
 import KanbanView from '../components/KanbanView';
+import { PlusIcon } from '../components/icons/PlusIcon';
 
 const FlowPage: React.FC = () => {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      navigate('/login');
-    }
-  }, [navigate]);
-
-  return <KanbanView />;
+  return (
+    <div className="p-4">
+      <div className="flex justify-between items-center mb-4">
+        <FilterControls />
+        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-full flex items-center space-x-2">
+          <PlusIcon className="h-5 w-5" />
+          <span>New Task</span>
+        </button>
+      </div>
+      <KanbanView />
+    </div>
+  );
 };
 
 export default FlowPage;

@@ -39,5 +39,6 @@
   "status.completed": "已完成",
   "priority.low": "低",
   "priority.medium": "中",
-  "priority.high": "高"
+  "priority.high": "高",
+  "home.dashboardTitle": "智慧製造與人力資源整合儀表板 v1.3"
 }

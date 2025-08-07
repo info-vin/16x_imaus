@@ -345,3 +345,50 @@ This document outlines the development process for the ProjectFlow application, 
       - `POST /api/files/upload`: Handles file uploads to the `docs` directory.
       - `DELETE /api/files/:path`: Deletes a specified file from the `docs` directory.
 - **Reason:** These backend enhancements provide essential functionality for the full-stack application, enabling user-specific experiences and content management.
+
+### Day 27: Homepage Dashboard Integration
+
+- **Objective:** Display the static AI dashboard on the homepage for unauthenticated users.
+- **Action:**
+  1.  Copied the static files from `docs/pages/ai` to `public/ai` to make them publicly accessible.
+  2.  Updated the return link in `public/ai/home.html` to point to `/flow.html` instead of `/index.html`.
+  3.  Modified `src/pages/HomePage.tsx` to embed the dashboard using an `iframe` and added a header with login/register buttons.
+  4.  Added new translation keys for the dashboard title in the language files.
+- **Reason:** This change provides a much richer landing experience for new users, immediately showcasing the application's core value proposition.
+
+### Day 28: UI and Content Refinement
+
+- **Objective:** Unify the application's header, restore the task board functionality, and update the About page content.
+- **Action:**
+  1.  **Unified Header:** Created a `PublicHeader.tsx` component for the homepage to ensure a consistent look and feel with the main application header, while only showing login/register buttons.
+  2.  **Restored Task Board:** Modified `FlowPage.tsx` to re-include the `<FilterControls />` and `<KanbanView />` components, restoring the core task board functionality.
+  3.  **Updated About Page:**
+      - Added the `marked` and `@tailwindcss/typography` packages to render Markdown content.
+      - Modified `AboutPage.tsx` to fetch and display the content from `integration_casestudy_wItem.md`.
+- **Reason:** These changes address UI inconsistencies, fix broken functionality, and enrich the application's content, leading to a more coherent and usable product.
+
+### Day 29: Advanced UI/UX and i18n Refinement
+
+- **Objective:** Implement a professional, unified header, fix the multi-language system, and upgrade the About page to an interactive card carousel.
+- **Action:**
+  1.  **Header Redesign:**
+      - Created a new `logo.svg` for the application.
+      - Redesigned `Header.tsx` and `PublicHeader.tsx` to match the new, modern aesthetic, ensuring consistent branding and navigation across all pages.
+  2.  **i18n Fix:**
+      - Enabled `debug` mode in `i18next` to diagnose language loading issues.
+      - This will help resolve why only the Flow page was being translated correctly.
+  3.  **About Page Overhaul:**
+      - Added `swiper` for the carousel functionality and `mammoth` to parse `.docx` files.
+      - Transformed `AboutPage.tsx` into a dynamic card carousel, fetching and displaying multiple documents from the `docs` folder, providing a much more engaging user experience.
+- **Reason:** This major refinement aligns the application with a more professional and user-friendly design, fixes critical bugs in the internationalization system, and significantly enhances the presentation of informational content.
+
+### Day 30: UI Layout and Logo Refinement
+
+- **Objective:** Refine the UI layout by moving the "New Task" button and updating the application logo.
+- **Action:**
+  1.  **Relocated "New Task" Button:**
+      - Removed the "New Task" button from the global `Header.tsx` component.
+      - Placed the button within `FlowPage.tsx`, aligning it with the `FilterControls` for a more contextually relevant UI.
+  2.  **Logo Update:**
+      - Replaced the existing `logo.svg` with a new, Frieren-inspired design to better reflect the desired aesthetic.
+- **Reason:** These changes improve the application's usability by placing controls in more logical locations and enhance the brand identity with a more thematic logo.

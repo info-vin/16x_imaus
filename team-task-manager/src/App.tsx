@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -9,19 +9,32 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import AiPage from './features/ai/routes/AiPage';
 import AusPage from './features/aus/routes/AusPage';
 import CookieConsent from 'react-cookie-consent';
+import { useAppStore } from './stores/appStore';
+import MainLayout from './components/MainLayout';
 
 function App() {
+  const init = useAppStore((state) => state.init);
+
+  useEffect(() => {
+    init();
+  }, [init]);
+
   return (
     <Router>
       <Routes>
+        {/* Routes without MainLayout */}
         <Route path="/" element={<HomePage />} />
-        <Route path="/about.html" element={<AboutPage />} />
-        <Route path="/flow.html" element={<FlowPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route path="/ai" element={<AiPage />} />
-        <Route path="/aus" element={<AusPage />} />
+
+        {/* Routes with MainLayout */}
+        <Route element={<MainLayout />}>
+          <Route path="/flow.html" element={<FlowPage />} />
+          <Route path="/about.html" element={<AboutPage />} />
+          <Route path="/ai" element={<AiPage />} />
+          <Route path="/aus" element={<AusPage />} />
+        </Route>
       </Routes>
       <CookieConsent
         location="bottom"

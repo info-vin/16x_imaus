@@ -88,12 +88,15 @@ This project is equipped with tools to ensure code quality and test coverage.
 
 Once the application is running in your browser:
 
-1.  **Visit the Homepage:** Open your browser to `http://localhost:5173` to see the new landing page.
-2.  **Login/Register:** Use the links on the homepage to log in or create a new account.
+1.  **Visit the Homepage:** Open your browser to `http://localhost:5173`. You will see the main dashboard. The top bar contains buttons to log in or register.
+2.  **Login/Register:** Use the buttons in the top bar to log in or create a new account.
 3.  **Access the Flow Board:** After logging in, you will be redirected to the main task management interface at `/flow.html`.
-4.  **Manage Tasks:** Use the filter controls to search, filter by status or priority, and switch between "My Tasks" and "All Tasks".
-5.  **Import/Export Data:** Use the upload/download icons in the header to back up your task list to a JSON file or restore it from a backup. All data is saved in your browser's local storage.
-6.  **Batch Import for Developers:** To quickly populate tasks for testing, you can run the pre-made import script. Open your browser's developer console and execute the following command:
+    *   **開發模式提示**: 在開發模式下，為了方便前端功能測試，`flow.html` 的登入檢查已被暫時註解。您可以直接訪問 `http://localhost:5173/flow.html` 來檢視看板功能，無需登入。請注意，在正式部署前，此登入檢查將會被重新啟用。
+4.  **Create a Task:** On the Flow Board page, use the "New Task" button, located next to the filters, to create a new task.
+5.  **Manage Tasks:** Use the filter controls to search, filter by status or priority, and switch between "My Tasks" and "All Tasks".
+6.  **View the About Page:** Navigate to `/about.html` to see an interactive carousel of software integration documents.
+7.  **Import/Export Data:** Use the upload/download icons in the header to back up your task list to a JSON file or restore it from a backup. All data is saved in your browser's local storage.
+8.  **Batch Import for Developers:** To quickly populate tasks for testing, you can run the pre-made import script. Open your browser's developer console and execute the following command:
     ```javascript
     fetch('/import-tasks.js').then(r => r.text()).then(eval);
     ```
@@ -166,15 +169,10 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 
 當應用程式在您的瀏覽器中成功運行後：
 
-1.  **訪問首頁：** 在瀏覽器中打開 `http://localhost:5173`，您會看到新的登陸頁面。
-2.  **登入/註冊：** 使用首頁上的連結來登入或建立新帳戶。
+1.  **訪問首頁：** 在瀏覽器中打開 `http://localhost:5173`，您會看到主要的儀表板。頂部操作列包含登入和註冊按鈕。
+2.  **登入/註冊：** 使用頂部操作列的按鈕來登入或建立新帳戶。
 3.  **進入任務儀表板：** 登入後，您將被重定向到位於 `/flow.html` 的主要任務管理介面。
-4.  **管理任務：** 使用篩選器來搜尋、按狀態或優先級篩選，以及在「我的任務」和「全部任務」之間切換。
-5.  **導入/導出資料：** 使用頭部選單中的上傳/下載圖示，可以將您的任務列表備份到一個 JSON 檔案，或從備份檔中還原。所有資料都會儲存在您瀏覽器的 Local Storage 中。
-6.  **開發者批次匯入:** 若需快速填充測試任務，可執行預先準備的匯入腳本。請打開瀏覽器的開發者主控台，並執行以下指令：
-    ```javascript
-    fetch('/import-tasks.js').then(r => r.text()).then(eval);
-    ```
+    *   **開發模式提示**: 在開發模式下，為了方便前端功能測試，`FlowPage.tsx` 中的登入檢查已被暫時註解。您可以直接訪問 `http://localhost:5173/flow.html` 來檢視看板功能，無需登入。請注意，在正式部署前，此登入檢查將會被重新啟用。
 
 ---
 
@@ -351,65 +349,50 @@ The backend server provides the following APIs:
 
 **測試環境準備 (Test Environment Setup):**
 
-1.  **啟動資料庫 (Start the Database):**
+本專案的後端服務依賴 PostgreSQL 資料庫。為簡化設定並確保環境一致，我們強烈建議使用 Docker 來運行資料庫。
 
-    **前置要求:**
-    - **安裝 Docker:** 本專案的後端服務依賴 PostgreSQL 資料庫。為簡化設定並確保環境一致，我們強烈建議使用 Docker 來運行資料庫。請先根據您的作業系統，從 [Docker 官方網站](https://www.docker.com/products/docker-desktop/)下載並安裝 Docker Desktop，並確保其正在背景運行。
+**步驟一：啟動資料庫 (使用 Docker)**
 
-    **方法一：使用 Docker 啟動 (建議)**
+1.  **前置要求**: 請先根據您的作業系統，從 [Docker 官方網站](https://www.docker.com/products/docker-desktop/)下載並安裝 Docker Desktop，並確保其正在背景運行。
 
-    - **啟動容器:** 在終端機中，導航到 `server` 目錄，然後執行以下指令：
-      ```bash
-      docker compose up -d
-      ```
-      此指令會以後台模式啟動一個名為 `task-manager-db` 的 PostgreSQL 資料庫容器。資料將會被持久化儲存，即使關閉容器也不會遺失。
-
-    - **停止容器:** 若要停止資料庫，可以執行：
-      ```bash
-      docker compose down
-      ```
-
-    **方法二：手動安裝 PostgreSQL (替代方案)**
-
-    如果您無法或不想使用 Docker，也可以在您的系統上手動安裝 PostgreSQL。
-    - **macOS:** 建議使用 [Homebrew](https://brew.sh/) 進行安裝：`brew install postgresql`
-    - **Windows:** 可從 [PostgreSQL 官方網站](https://www.postgresql.org/download/windows/)下載安裝程式。
-    - 安裝完成後，請確保 PostgreSQL 服務正在運行，並手動建立一個名為 `task_manager` 的資料庫。您可能還需要修改 `server/db.js` 中的連線資訊 (主機、埠、使用者、密碼) 以符合您的本地設定。
-
-2.  **初始化資料庫 (Initialize the Database):**
-    首次啟動資料庫後，您需要建立應用程式所需的資料表。我們推薦使用 `psql` 命令列工具來執行初始化腳本。
-
-    **前置要求:**
-    - **安裝 psql:** `psql` 通常會與 PostgreSQL 一同安裝。如果您是手動安裝 PostgreSQL，請確保其 `bin` 目錄已加入到您的系統路徑 (PATH) 中。如果您使用 Docker，則無需在本地安裝，可直接在容器內執行。
-
-    **初始化步驟:**
-
-    - **方法一：使用 Docker (建議)**
-      執行以下指令，它會將 `server/database.sql` 檔案的內容傳送給在 Docker 容器中運行的 `psql` 來執行。
-      ```bash
-      docker exec -i task-manager-db psql -U postgres -d task_manager < database.sql
-      ```
-
-    - **方法二：使用本地 psql (替代方案)**
-      如果您是手動安裝的 PostgreSQL，請執行以下指令。系統可能會提示您輸入 `postgres` 使用者的密碼。
-      ```bash
-      psql -U postgres -d task_manager -f server/database.sql
-      ```
-
-    - **驗證:** 無論使用哪種方法，執行後都不應看到任何錯誤訊息。您可以連線到資料庫，使用 `\dt` 指令來確認 `users` 和 `tasks` 資料表是否已成功建立。
-
-2.  **啟動後端伺服器 (Start the Backend Server):**
-    在終端機中，導航到 `server` 目錄並執行以下指令。為求明確，以下指令已包含切換目錄的步驟：
+2.  **啟動容器**: 開啟一個終端機，**並確保您位於專案的根目錄** (`team-task-manager`)，然後執行以下指令：
     ```bash
-    cd server
-    npm start
+    docker compose -f server/docker-compose.yml up -d
     ```
+    *   此指令會讀取 `server` 目錄下的設定檔，並在背景啟動一個名為 `task-manager-db` 的 PostgreSQL 資料庫容器。
 
-3.  **啟動前端應用 (Start the Frontend Application):**
-    在另一個終端機中，於專案根目錄執行以下指令。
+3.  **驗證容器狀態**: 執行以下指令，確認容器正在運行中：
+    ```bash
+    docker ps
+    ```
+    您應該能在列表中看到 `task-manager-db` 的容器資訊。
+
+**步驟二：初始化資料庫**
+
+首次啟動資料庫後，您需要建立應用程式所需的資料表。**請在專案根目錄**執行以下指令，它會將 `database.sql` 的內容導入到 Docker 容器內的資料庫中：
+```bash
+docker exec -i task-manager-db psql -U postgres -d task_manager < server/database.sql
+```
+*   此指令執行後，不應看到任何錯誤訊息。
+
+**步驟三：啟動後端伺服器**
+
+在同一個終端機中 (仍在專案根目錄)，執行以下指令來啟動後端 Node.js 伺服器：
+```bash
+npm start --prefix server
+```
+*   您應該會看到伺服器在 port 3001 上成功運行的日誌。
+*   請讓此終端機保持開啟。
+
+**步驟四：啟動前端應用**
+
+1.  開啟一個**新的終端機**。
+2.  **再次進入專案根目錄**：`cd path/to/team-task-manager`
+3.  執行以下指令來啟動前端 Vite 開發伺服器：
     ```bash
     npm run dev
     ```
+*   前端應用現在應該可以透過 `http://localhost:5173` 訪問。
 
 ---
 
