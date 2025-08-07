@@ -318,3 +318,30 @@ This document outlines the development process for the ProjectFlow application, 
   - Created frontend pages (`LoginPage.tsx`, `RegisterPage.tsx`, `MainPage.tsx`) and set up client-side routing using `react-router-dom`.
 - **Testing:**
   - The following manual end-to-end tests have been defined to verify the complete authentication flow.
+
+### Day 25: Frontend Refactoring based on Rework Plan
+
+- **Objective:** Refactor the frontend routing and page structure according to the `Rework_Plan.md`.
+- **Action:**
+  1.  Created `Rework_Plan.md` to document the new architecture.
+  2.  Replaced `MainPage.tsx` with three new page components:
+      - `src/pages/HomePage.tsx`: The new landing page for unauthenticated users.
+      - `src/pages/AboutPage.tsx`: A new static "About" page.
+      - `src/pages/FlowPage.tsx`: The main Kanban/Flow view for authenticated users.
+  3.  Updated the routing in `src/App.tsx` to reflect the new page structure:
+      - `/` now points to `HomePage`.
+      - `/about.html` points to `AboutPage`.
+      - `/flow.html` points to `FlowPage` and requires authentication.
+- **Reason:** This change aligns the application with the new full-stack architecture, separating the public-facing pages from the core application logic and improving the overall structure.
+
+### Day 26: Backend API Enhancement
+
+- **Objective:** Implement user data retrieval and file management APIs.
+- **Action:**
+  1.  Added `multer` to `server/package.json` for handling file uploads.
+  2.  Implemented the `GET /api/auth/me` endpoint in `server/index.js` to fetch authenticated user data.
+  3.  Implemented file management APIs for the `/docs` directory:
+      - `GET /api/files`: Lists all files in the `docs` directory.
+      - `POST /api/files/upload`: Handles file uploads to the `docs` directory.
+      - `DELETE /api/files/:path`: Deletes a specified file from the `docs` directory.
+- **Reason:** These backend enhancements provide essential functionality for the full-stack application, enabling user-specific experiences and content management.

@@ -1,11 +1,11 @@
 
 import { DndContext, closestCenter } from '@dnd-kit/core';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { useStore } from '@/stores/appStore';
+import { useAppStore } from '../stores/appStore';
 import TaskCard from './TaskCard';
 
 const KanbanView = () => {
-  const tasks = useStore((state) => state.tasks);
+  const tasks = useAppStore((state) => state.tasks);
 
   // Group tasks by status
   const columns = tasks.reduce((acc, task) => {

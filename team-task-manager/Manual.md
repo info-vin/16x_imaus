@@ -39,6 +39,10 @@ This project uses a Node.js-based build system (Vite). You need to install depen
 2.  The server will start and provide a local URL, usually `http://localhost:5173`. Open this URL in your browser.
 3.  The application will now run in hot-reload mode.
 
+**Accessing from your local network:**
+
+To access the application from other devices on your local network (e.g., your phone), find your computer's local IP address (you can find this by typing `ipconfig` in the command prompt on Windows or `ifconfig` in the terminal on macOS/Linux). Then, open `http://<your-local-ip>:5173` in the browser on the other device.
+
 ## 4. Development Tasks and Testing
 
 This project is equipped with tools to ensure code quality and test coverage.
@@ -84,9 +88,9 @@ This project is equipped with tools to ensure code quality and test coverage.
 
 Once the application is running in your browser:
 
-1.  **Select a User:** Click the user icon in the top-right corner to choose your identity. You must select a user to be able to create new tasks.
-2.  **Change Language:** Click the globe icon to switch between English, Traditional Chinese, and Japanese.
-3.  **Create Tasks:** Click the "New Task" button to open a modal and fill in the task details.
+1.  **Visit the Homepage:** Open your browser to `http://localhost:5173` to see the new landing page.
+2.  **Login/Register:** Use the links on the homepage to log in or create a new account.
+3.  **Access the Flow Board:** After logging in, you will be redirected to the main task management interface at `/flow.html`.
 4.  **Manage Tasks:** Use the filter controls to search, filter by status or priority, and switch between "My Tasks" and "All Tasks".
 5.  **Import/Export Data:** Use the upload/download icons in the header to back up your task list to a JSON file or restore it from a backup. All data is saved in your browser's local storage.
 6.  **Batch Import for Developers:** To quickly populate tasks for testing, you can run the pre-made import script. Open your browser's developer console and execute the following command:
@@ -137,6 +141,10 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 2.  伺服器將會啟動，並提供一個本機網址，通常是 `http://localhost:5173` 或類似的埠號。在您的瀏覽器中打開這個網址。
 3.  應用程式現在將會以熱更新模式運行。
 
+**從您的內部網路存取：**
+
+若要從內部網路上的其他裝置（例如您的手機）存取應用程式，請找到您電腦的內部 IP 位址（在 Windows 上，您可以在命令提示字元中輸入 `ipconfig`；在 macOS/Linux 上，您可以在終端機中輸入 `ifconfig`）。然後，在其他裝置的瀏覽器中打開 `http://<您的內部IP>:5173`。
+
 ## 4. 開發相關指令
 
 本專案已整合多種工具來確保程式碼品質與測試覆蓋率。
@@ -158,9 +166,9 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 
 當應用程式在您的瀏覽器中成功運行後：
 
-1.  **選擇用戶：** 點擊右上角的使用者圖示來選擇您的身份。您必須先選擇一個用戶才能建立新任務。
-2.  **切換語言：** 點擊地球圖示可以在英文、繁體中文和日文之間切換。
-3.  **建立任務：** 點擊「新增任務」按鈕會彈出一個視窗，您可以在其中填寫任務詳情。
+1.  **訪問首頁：** 在瀏覽器中打開 `http://localhost:5173`，您會看到新的登陸頁面。
+2.  **登入/註冊：** 使用首頁上的連結來登入或建立新帳戶。
+3.  **進入任務儀表板：** 登入後，您將被重定向到位於 `/flow.html` 的主要任務管理介面。
 4.  **管理任務：** 使用篩選器來搜尋、按狀態或優先級篩選，以及在「我的任務」和「全部任務」之間切換。
 5.  **導入/導出資料：** 使用頭部選單中的上傳/下載圖示，可以將您的任務列表備份到一個 JSON 檔案，或從備份檔中還原。所有資料都會儲存在您瀏覽器的 Local Storage 中。
 6.  **開發者批次匯入:** 若需快速填充測試任務，可執行預先準備的匯入腳本。請打開瀏覽器的開發者主控台，並執行以下指令：
@@ -318,6 +326,24 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
     # (可選) 預覽建置後的成果
     npm run preview
     ```
+
+---
+
+## Backend API
+
+The backend server provides the following APIs:
+
+### Authentication
+
+- `POST /api/auth/register`: Register a new user.
+- `POST /api/auth/login`: Log in a user and get a JWT token.
+- `GET /api/auth/me`: Get the current user's data. Requires a valid JWT token in the `x-auth-token` header.
+
+### File Management
+
+- `GET /api/files`: Get a list of all files in the `/docs` directory.
+- `POST /api/files/upload`: Upload a file to the `/docs` directory.
+- `DELETE /api/files/:path`: Delete a file from the `/docs` directory.
 
 ---
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import MainPage from './pages/MainPage';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import FlowPage from './pages/FlowPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
@@ -12,7 +14,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about.html" element={<AboutPage />} />
+        <Route path="/flow.html" element={<FlowPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
