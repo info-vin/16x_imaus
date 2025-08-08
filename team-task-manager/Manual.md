@@ -360,6 +360,7 @@ The backend server provides the following APIs:
     docker compose -f server/docker-compose.yml up -d
     ```
     *   此指令會讀取 `server` 目錄下的設定檔，並在背景啟動一個名為 `task-manager-db` 的 PostgreSQL 資料庫容器。
+    *   **測試結果**: 執行 `docker compose -f server/docker-compose.yml up -d` 後，容器已成功啟動並運行。使用 `docker ps` 確認，`task-manager-db` 容器狀態為 `Up`。
 
 3.  **驗證容器狀態**: 執行以下指令，確認容器正在運行中：
     ```bash
@@ -371,9 +372,14 @@ The backend server provides the following APIs:
 
 首次啟動資料庫後，您需要建立應用程式所需的資料表。**請在專案根目錄**執行以下指令，它會將 `database.sql` 的內容導入到 Docker 容器內的資料庫中：
 ```bash
-docker exec -i task-manager-db psql -U postgres -d task_manager < server/database.sql
+# For Windows Command Prompt:
+type server\database.sql | docker exec -i task-manager-db psql -U postgres -d task_manager
+# For PowerShell:
+# Get-Content server/database.sql | docker exec -i task-manager-db psql -U postgres -d task_manager
+# For Git Bash/WSL:
+# cat server/database.sql | docker exec -i task-manager-db psql -U postgres -d task_manager
 ```
-*   此指令執行後，不應看到任何錯誤訊息。
+*   此指令執行後，不應看到任何錯誤訊息。如果出現 `ERROR: database "task_manager" already exists`，這是正常的，表示資料庫已存在，但資料表仍會被建立。
 
 **步驟三：啟動後端伺服器**
 
