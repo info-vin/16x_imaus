@@ -94,6 +94,18 @@ app.get('/api/auth/me', auth, async (req, res) => {
   }
 });
 
+// Get all users
+app.get('/api/users', auth, async (req, res) => {
+  try {
+    const allUsers = await pool.query('SELECT user_id, user_name, user_email FROM users ORDER BY user_name ASC');
+    res.json(allUsers.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+
 // File Management API
 const docsDir = path.join(__dirname, '..', 'docs');
 

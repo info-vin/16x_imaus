@@ -404,3 +404,20 @@ This document outlines the development process for the ProjectFlow application, 
 - **Objective:** Design a dedicated admin panel for managing users and tasks.
 - **Action:** Outlined a detailed design for a new admin panel, including frontend components, backend API endpoints, and permission control mechanisms.
 - **Reason:** To provide a centralized management interface, improve data management efficiency and security, and lay the groundwork for future system expansion.
+
+### Day 33: Bug Fixes and API Integration
+
+- **Objective:** Resolve critical bugs related to task management and user synchronization, and improve developer documentation.
+- **Action:**
+  1.  **Fixed Unresponsive Task Board:**
+      - **Issue:** The "+ New Task" button and other controls on the `/flow.html` page were not working.
+      - **Fix:** Connected the `FlowPage.tsx` component to the Zustand store. Implemented state (`isTaskModalOpen`, `editingTask`) and actions (`setTaskModalOpen`, `setEditingTask`) to manage the task creation/editing modal. Wired the "New Task" button to an `onClick` handler that opens the modal.
+  2.  **Implemented Dynamic User Loading:**
+      - **Issue:** The user list in the header was static and did not update after a new user registered.
+      - **Fix (Backend):** Added a new `GET /api/users` endpoint to `server/index.js` to fetch all users from the PostgreSQL database.
+      - **Fix (Frontend):** Refactored the `appStore` to include a `teamMembers` state and a `fetchTeamMembers` async action. Modified the `UserSelector.tsx` component to call this action and populate the user dropdown with the dynamic list from the API, replacing the static `TEAM_MEMBERS` constant.
+  3.  **Improved Documentation:**
+      - **Issue:** The backend was API-only, but there were no instructions on how to run it. The project structure diagram was also outdated.
+      - **Fix:** Updated `Manual.md` with a new "Backend API Server" section under the "Developer's Technical Guide," providing clear instructions for installing dependencies and starting the server.
+      - **Fix:** Revised the project structure diagram in `Manual.md` to accurately reflect the current layout, including the `server` directory and the refactored `src` folder.
+- **Reason:** These changes resolve major functionality blockers, ensure the application's user data is synchronized with the backend, and provide clear, accurate documentation for developers, improving the overall stability and maintainability of the project.

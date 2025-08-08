@@ -8,6 +8,7 @@ import { STORAGE_KEYS, TEAM_MEMBERS } from '../constants';
 interface AppState {
   tasks: Task[];
   currentUser: User | null;
+  teamMembers: User[]; // Add this
   viewMode: 'list' | 'kanban';
   filters: {
     search: string;
@@ -29,12 +30,20 @@ interface AppState {
   getTasksForExport: () => Task[];
   importData: (tasks: Task[]) => void;
   setViewMode: (mode: 'list' | 'kanban') => void;
+  isTaskModalOpen: boolean;
+  editingTask: Task | null;
+  setTaskModalOpen: (isOpen: boolean) => void;
+  setEditingTask: (task: Task | null) => void;
+  fetchTeamMembers: () => Promise<void>; // Add this
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
   tasks: [],
   currentUser: null,
-  viewMode: 'list',
+  teamMembers: [], // Add this
+  viewMode: 'kanban',
+  isTaskModalOpen: false,
+  editingTask: null,
   filters: {
     search: '',
     status: 'all',
@@ -116,4 +125,33 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   setViewMode: (mode) => set({ viewMode: mode }),
+
+  setTaskModalOpen: (isOpen) => set({ isTaskModalOpen: isOpen }),
+
+  setEditingTask: (task) => set({ editingTask: task }),
+
+  fetchTeamMembers: async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      const response = await fetch('http://localhost:3001/api/users', {
+        headers: {
+          'x-auth-token': token,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch team members');
+      }
+
+      const users = await response.json();
+      // The backend returns user_id and user_name, we need to map to id and name
+      const formattedUsers = users.map((u: any) => ({ id: u.user_id, name: u.user_name, email: u.user_email }));
+
+      set({ teamMembers: formattedUsers });
+    } catch (error) {
+      console.error('Error fetching team members:', error);
+    }
+  },
 }));

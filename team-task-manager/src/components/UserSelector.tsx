@@ -1,15 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../stores/appStore';
-import { TEAM_MEMBERS } from '../constants';
 import { ChevronDownIcon } from './icons/ChevronDownIcon';
 import { UserCircleIcon } from './icons/UserCircleIcon';
+import { User } from '../types';
 
 const UserSelector: React.FC = () => {
   const { t } = useTranslation();
-  const { currentUser, setCurrentUser } = useAppStore();
+  const {
+    currentUser,
+    setCurrentUser,
+    teamMembers,
+    fetchTeamMembers,
+  } = useAppStore();
   const [isOpen, setIsOpen] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    fetchTeamMembers();
+  }, [fetchTeamMembers]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -24,7 +33,7 @@ const UserSelector: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [wrapperRef]);
 
-  const handleSelect = (user: (typeof TEAM_MEMBERS)[0]) => {
+  const handleSelect = (user: User) => {
     setCurrentUser(user);
     setIsOpen(false);
   };
@@ -53,7 +62,7 @@ const UserSelector: React.FC = () => {
             <div className="px-4 py-2 text-xs text-gray-400">
               {t('switchUser')}
             </div>
-            {TEAM_MEMBERS.map((member) => (
+            {teamMembers.map((member) => (
               <a
                 key={member.id}
                 href="#"

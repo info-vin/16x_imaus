@@ -237,30 +237,27 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 
 ```bash
 .
-├── .github/            # GitHub Actions 工作流程 (CI/CD)
 ├── dist/               # (建置後產生) 生產環境的靜態檔案
 ├── node_modules/       # (npm install 後產生) 專案依賴套件
 ├── public/             # 靜態資源，會被直接複製到 dist 目錄
-│   └── locales/      # 國際化 (i18next) 翻譯檔
-├── src/                # 應用程式原始碼
-│   ├── components/     # React 元件 (UI 組件)
-│   │   ├── icons/      # SVG 圖示元件
-│   │   └── ...
+├── server/             # 後端 API 伺服器 (Node.js/Express)
+│   ├── node_modules/   # 後端依賴套件
+│   ├── database.sql    # 資料庫初始化腳本
+│   ├── db.js           # 資料庫連線設定
+│   ├── index.js        # API 伺服器進入點
+│   └── package.json    # 後端 npm 腳本與依賴
+├── src/                # 前端應用程式原始碼 (React)
+│   ├── components/     # React UI 元件
+│   ├── features/       # 產品線特定功能 (ai, aus)
 │   ├── i18n/           # 國際化 (i18next) 設定
-│   │   └── index.ts    # i18next 初始化設定
+│   ├── pages/          # 頁面級元件 (路由對應)
 │   ├── stores/         # 狀態管理 (Zustand)
-│   │   └── appStore.ts # 全域狀態儲存
-│   ├── styles/         # 全域樣式與 CSS 變數
-│   │   └── index.css
 │   ├── types/          # TypeScript 型別定義
-│   │   └── index.ts
-│   ├── utils/          # 共用工具函式
-│   │   └── storage.ts  # LocalStorage 抽象層
-│   ├── App.tsx         # 應用程式主元件
-│   └── main.tsx        # 應用程式進入點
-├── .eslintrc.cjs       # ESLint 設定檔 (程式碼品質)
-├── .prettierrc         # Prettier 設定檔 (程式碼格式化)
+│   ├── App.tsx         # 應用程式主元件與路由
+│   └── index.tsx       # 應用程式進入點
+├── .eslintrc.cjs       # ESLint 設定檔
 ├── index.html          # 應用程式 HTML 入口
+├── Manual.md           # 本操作手冊
 ├── package.json        # 專案定義與 npm 腳本
 ├── tsconfig.json       # TypeScript 編譯器設定
 └── vite.config.ts      # Vite 建置工具設定
@@ -284,6 +281,29 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
     -   若有需要區分開發與生產環境的變數 (例如 API 金鑰)，可以建立 `.env.local` 檔案。
     -   Vite 會自動載入這些變數。變數必須以 `VITE_` 開頭，例如 `VITE_API_URL=http://localhost:3000`。
     -   這些變數可以透過 `import.meta.env.VITE_API_URL` 在程式碼中存取。
+
+### 後端 API 伺服器 (Backend API Server)
+
+本專案包含一個位於 `server/` 目錄的後端 API 服務，基於 Node.js 和 Express.js。
+
+-   **用途**: 此伺服器提供使用者認證 (註冊、登入)、資料庫操作 (讀取使用者列表、任務管理) 以及檔案管理等後端功能。
+-   **資料庫**: 使用 PostgreSQL 作為資料庫。
+-   **注意**: 此後端服務**沒有圖形化使用者介面 (GUI)**。它僅作為一個 API 端點，供前端應用程式調用。
+
+**如何啟動後端伺服器:**
+
+1.  **前置要求**: 確保後端資料庫正在運行 (請參考下方的 "使用者認證功能測試計畫" 中的 Docker 設定步驟)。
+2.  **安裝依賴**:
+    ```bash
+    cd server
+    npm install
+    ```
+3.  **啟動伺服器**:
+    ```bash
+    npm start
+    ```
+    -   伺服器將會運行在 `http://localhost:3001`。
+    -   請保持此終端機視窗開啟，以便前端可以與之通訊。
 
 ## 日常開發流程 (Daily Development Workflow)
 
