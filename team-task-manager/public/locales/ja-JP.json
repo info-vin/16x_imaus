@@ -1,4 +1,8 @@
 {
+  "app.title": "ProjectFlow",
+  "nav.home": "ホーム",
+  "nav.about": "概要",
+  "about.title": "私たちについて＆ケーススタディ",
   "headerSubtitle": "シンプルチームタスク管理",
   "tasksTitle": "タスク一覧",
   "addNewTask": "新規タスク",
@@ -39,5 +43,7 @@
   "status.completed": "完了",
   "priority.low": "低",
   "priority.medium": "中",
-  "priority.high": "高"
+  "priority.high": "高",
+  "login.title": "ログイン",
+  "register.title": "登録"
 }

@@ -1,4 +1,8 @@
 {
+  "app.title": "ProjectFlow",
+  "nav.home": "Home",
+  "nav.about": "About",
+  "about.title": "About Us & Case Studies",
   "headerSubtitle": "Simple Team Task Manager",
   "tasksTitle": "Tasks",
   "addNewTask": "New Task",
@@ -40,5 +44,7 @@
   "priority.low": "Low",
   "priority.medium": "Medium",
   "priority.high": "High",
-  "home.dashboardTitle": "Intelligent Manufacturing and Human Resources Integration Dashboard v1.3"
+  "home.dashboardTitle": "Intelligent Manufacturing and Human Resources Integration Dashboard v1.3",
+  "login.title": "Login",
+  "register.title": "Register"
 }

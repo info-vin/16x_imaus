@@ -1,195 +1,36 @@
-# ProjectFlow - Installation and Operation Manual
+# ProjectFlow - 操作手冊 (Operation Manual)
 
-This guide explains how to set up and run the ProjectFlow application on your local machine.
-
-## 1. Project Overview
-
-ProjectFlow is a streamlined task management application built with modern web technologies. It's designed as a static single-page application (SPA) that runs entirely in the browser, using `localStorage` to persist data.
-
-## 2. Tech Stack
-
-- **Framework:** React 19
-- **Language:** TypeScript
-- **Build Tool:** Vite
-- **Testing:** Vitest, React Testing Library
-- **Code Quality:** ESLint, Prettier
-- **State Management:** Zustand
-- **Internationalization:** i18next
-
-## 3. How to Run the Application
-
-This project uses a Node.js-based build system (Vite). You need to install dependencies and then run the development server.
-
-**Step 1: Install Dependencies**
-
-1.  Ensure you have [Node.js](https://nodejs.org/) installed (which includes `npm`).
-2.  Open your terminal or command prompt.
-3.  Navigate to the project's root directory (the one containing `package.json`).
-4.  Run the following command to install the required packages:
-    ```bash
-    npm install
-    ```
-
-**Step 2: Start the Development Server**
-
-1.  After the installation is complete, run the following command in the same directory:
-    ```bash
-    npm run dev
-    ```
-2.  The server will start and provide a local URL, usually `http://localhost:5173`. Open this URL in your browser.
-3.  The application will now run in hot-reload mode.
-
-**Accessing from your local network:**
-
-To access the application from other devices on your local network (e.g., your phone), find your computer's local IP address (you can find this by typing `ipconfig` in the command prompt on Windows or `ifconfig` in the terminal on macOS/Linux). Then, open `http://<your-local-ip>:5173` in the browser on the other device.
-
-## 4. Development Tasks and Testing
-
-This project is equipped with tools to ensure code quality and test coverage.
-
-### 4.1 Code Quality Tools
-
-- **Linting:** To check the code for style issues and potential errors, run:
-  ```bash
-  npm run lint
-  ```
-- **Formatting:** To automatically format all project files according to the defined style, run:
-  ```bash
-  npm run format
-  ```
-- **Testing:** To run the unit and component tests, use:
-  ```bash
-  npm run test
-  ```
-
-### 4.2 Recent Test Cases and Results
-
-1. **Language Switching Test**
-   - Test Case: Switch between English, Traditional Chinese, and Japanese
-   - Results: ✅ All language switches work correctly
-   - Verified: UI updates properly for all supported languages
-
-2. **User Selection Test**
-   - Test Case: New user "vincent" appears in selector
-   - Results: ✅ User successfully added and selectable
-   - Verified: User appears in list and can be selected
-
-3. **Task Import Test**
-   - Test Case: Import tasks using browser console script
-   - Results: ✅ Tasks successfully imported
-   - Verified: Eight new tasks added and visible when "vincent" is selected
-
-4. **Navigation Test**
-   - Test Case: Navigate to home.html and return to main application
-   - Results: ✅ Navigation works in both directions
-   - Verified: Links correctly point to `/docs/pages/ai/home.html` and `/index.html`
-
-## 5. How to Use the Application
-
-Once the application is running in your browser:
-
-1.  **Visit the Homepage:** Open your browser to `http://localhost:5173`. You will see the main dashboard. The top bar contains buttons to log in or register.
-2.  **Login/Register:** Use the buttons in the top bar to log in or create a new account.
-3.  **Access the Flow Board:** After logging in, you will be redirected to the main task management interface at `/flow.html`.
-    *   **開發模式提示**: 在開發模式下，為了方便前端功能測試，`flow.html` 的登入檢查已被暫時註解。您可以直接訪問 `http://localhost:5173/flow.html` 來檢視看板功能，無需登入。請注意，在正式部署前，此登入檢查將會被重新啟用。
-4.  **Create a Task:** On the Flow Board page, use the "New Task" button, located next to the filters, to create a new task.
-5.  **Manage Tasks:** Use the filter controls to search, filter by status or priority, and switch between "My Tasks" and "All Tasks".
-6.  **View the About Page:** Navigate to `/about.html` to see an interactive carousel of software integration documents.
-7.  **Import/Export Data:** Use the upload/download icons in the header to back up your task list to a JSON file or restore it from a backup. All data is saved in your browser's local storage.
-8.  **Batch Import for Developers:** To quickly populate tasks for testing, you can run the pre-made import script. Open your browser's developer console and execute the following command:
-    ```javascript
-    fetch('/import-tasks.js').then(r => r.text()).then(eval);
-    ```
+本手冊提供 `ProjectFlow` 應用程式的設定、操作與開發指南。
 
 ---
 
-# ProjectFlow - 安裝與操作手冊 (繁體中文)
+## 1. 使用者指南 (User Guide)
 
-本手冊將說明如何在您的本機電腦上設定並執行 ProjectFlow 應用程式。
+### 1.1 應用程式概覽
 
-## 1. 專案概覽
+ProjectFlow 是一個全端的任務管理應用程式，提供使用者註冊、登入、任務管理、多語言切換等功能。
 
-ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應用程式。它被設計為一個靜態的單頁應用程式 (SPA)，完全在瀏覽器中運行，並使用 `localStorage` 來保存資料。
+### 1.2 如何使用
 
-## 2. 技術棧
-
-- **框架:** React 19
-- **語言:** TypeScript
-- **建置工具:** Vite
-- **測試框架:** Vitest, React Testing Library
-- **程式碼品質:** ESLint, Prettier
-- **狀態管理:** Zustand
-- **國際化:** i18next
-
-## 3. 如何執行應用程式
-
-本專案使用基於 Node.js 的建置系統 (Vite)。您需要先安裝專案依賴，然後執行開發伺服器。
-
-**步驟一：安裝專案依賴**
-
-1.  請先確認您已安裝 [Node.js](https://nodejs.org/) (其中包含 `npm`)。
-2.  打開您的終端機或命令提示字元。
-3.  使用 `cd` 指令切換到專案的根目錄（也就是包含 `package.json` 的那個資料夾）。
-4.  執行以下指令來安裝所需的套件：
-    ```bash
-    npm install
-    ```
-
-**步驟二：啟動開發伺服器**
-
-1.  在安裝完成後，於同一個目錄下執行以下指令：
-    ```bash
-    npm run dev
-    ```
-2.  伺服器將會啟動，並提供一個本機網址，通常是 `http://localhost:5173` 或類似的埠號。在您的瀏覽器中打開這個網址。
-3.  應用程式現在將會以熱更新模式運行。
-
-**從您的內部網路存取：**
-
-若要從內部網路上的其他裝置（例如您的手機）存取應用程式，請找到您電腦的內部 IP 位址（在 Windows 上，您可以在命令提示字元中輸入 `ipconfig`；在 macOS/Linux 上，您可以在終端機中輸入 `ifconfig`）。然後，在其他裝置的瀏覽器中打開 `http://<您的內部IP>:5173`。
-
-## 4. 開發相關指令
-
-本專案已整合多種工具來確保程式碼品質與測試覆蓋率。
-
-- **程式碼檢查 (Linting):** 檢查程式碼風格與潛在錯誤。
-  ```bash
-  npm run lint
-  ```
-- **自動格式化 (Formatting):** 根據預設風格自動格式化所有專案檔案。
-  ```bash
-  npm run format
-  ```
-- **執行測試 (Testing):** 執行所有單元測試與元件測試。
-  ```bash
-  npm run test
-  ```
-
-## 5. 如何使用應用程式
-
-當應用程式在您的瀏覽器中成功運行後：
-
-1.  **訪問首頁：** 在瀏覽器中打開 `http://localhost:5173`，您會看到主要的儀表板。頂部操作列包含登入和註冊按鈕。
-2.  **登入/註冊：** 使用頂部操作列的按鈕來登入或建立新帳戶。
-3.  **進入任務儀表板：** 登入後，您將被重定向到位於 `/flow.html` 的主要任務管理介面。
-    *   **開發模式提示**: 在開發模式下，為了方便前端功能測試，`FlowPage.tsx` 中的登入檢查已被暫時註解。您可以直接訪問 `http://localhost:5173/flow.html` 來檢視看板功能，無需登入。請注意，在正式部署前，此登入檢查將會被重新啟用。
+1.  **訪問首頁**: 在瀏覽器中打開應用程式的網址 (本地開發環境為 `http://localhost:5173`)。
+2.  **註冊/登入**: 使用頁面右上角的按鈕建立新帳戶或登入。
+3.  **進入任務看板**: 成功登入後，您將被導向到 `/flow.html` 的主任務看板。
+4.  **管理任務**: 您可以建立、編輯、刪除任務，並使用篩選器來尋找特定任務。
+5.  **使用 Chatbot**: 在右下角點擊聊天圖示，即可與 AI 助理互動。
 
 ---
 
-# 開發者技術指南 (Developer's Technical Guide)
+## 2. 開發者技術指南 (Developer's Technical Guide)
 
-本指南為熟悉終端機操作的開發者（包含前端與後端工程師）提供更深入的技術說明。
+### 2.1 環境安裝與設定 (Local Development Setup)
 
-## 環境安裝與設定 (Local Development Setup)
+本專案已完全容器化，**強烈建議使用 Docker** 作為主要的開發環境，以確保環境一致性並簡化設定流程。
 
-專案使用 Node.js 與 npm 進行依賴管理，並透過 Vite 作為開發與建置工具。
+#### **前置要求**
 
-**前置要求:**
+-   根據您的作業系統，從 [Docker 官方網站](https://www.docker.com/products/docker-desktop/)下載並安裝 Docker Desktop，並確保其正在背景運行。
 
--   安裝 [Node.js](https://nodejs.org/) (LTS 版本為佳)，npm 會一併安裝。
--   熟悉基本的終端機 (Command Line) 操作。
-
-**安裝流程:**
+#### **一鍵啟動完整開發環境 (建議方式)**
 
 1.  **Clone 專案庫**
     ```bash
@@ -197,254 +38,170 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
     cd team-task-manager
     ```
 
-2.  **安裝依賴套件**
-    此指令會讀取 `package.json` 中的 `dependencies` 與 `devDependencies`，並將所有套件安裝至 `node_modules` 資料夾。
+2.  **啟動所有服務**
+    在專案的根目錄下，執行以下指令：
     ```bash
-    npm install
+    npm run dev:docker
+    ```
+    -   此指令會讀取根目錄的 `docker-compose.yml` 檔案，並自動建置、啟動以下所有服務：
+        -   **前端 (Vite)**: `http://localhost:5173`
+        -   **後端 (Express)**: `http://localhost:3001`
+        -   **開發資料庫 (Postgres)**: `localhost:5432`
+        -   **測試資料庫 (Postgres)**: `localhost:5433`
+    -   **資料庫自動初始化**: 首次啟動時，容器會自動執行 `server/database.sql` 腳本來建立所需的資料表，無需任何手動操作。
+    -   服務將在背景運行。您可以開始進行開發。
+
+3.  **停止所有服務**
+    當您完成開發後，執行以下指令來停止並移除所有容器：
+    ```bash
+    npm run stop:docker
     ```
 
-3.  **啟動開發伺服器**
-    此指令會啟動 Vite 開發伺服器，支援熱模組替換 (HMR)，實現快速開發。
+### 2.2 日常開發流程
+
+1.  **啟動環境**: `npm run dev:docker`
+2.  **開發**: 在 `src/` 或 `server/` 目錄下修改程式碼。Vite 和 Nodemon 會提供熱重載功能。
+3.  **品質檢查**: 在提交程式碼前，執行以下指令：
     ```bash
-    npm run dev
+    # 檢查程式碼風格
+    npm run lint
+
+    # 自動格式化
+    npm run format
+
+    # 執行單元與元件測試
+    npm run test
     ```
-    -   伺服器通常運行在 `http://localhost:5173`。
-    -   若要停止伺服器，請在終端機按下 `Ctrl + C`。
+4.  **停止環境**: `npm run stop:docker`
 
-**其他重要指令:**
+### 2.3 專案架構 (Project Architecture)
 
--   **查詢套件資訊**: 檢視已安裝套件的詳細資訊。
-    ```bash
-    npm list <package_name>
-    ```
--   **安裝新套件**:
-    -   安裝到 `dependencies` (執行時依賴):
-        ```bash
-        npm install <package_name>
-        ```
-    -   安裝到 `devDependencies` (開發時依賴):
-        ```bash
-        npm install <package_name> --save-dev
-        ```
--   **移除套件**:
-    ```bash
-    npm uninstall <package_name>
-    ```
+<details> <summary>點擊展開/收合詳細架構說明</summary>
 
-## 專案架構解析 (Project Structure)
-
-<details> <summary>點擊展開/收合目錄結構</summary>
-
-```bash
-.
-├── dist/               # (建置後產生) 生產環境的靜態檔案
-├── node_modules/       # (npm install 後產生) 專案依賴套件
-├── public/             # 靜態資源，會被直接複製到 dist 目錄
-├── server/             # 後端 API 伺服器 (Node.js/Express)
-│   ├── node_modules/   # 後端依賴套件
-│   ├── database.sql    # 資料庫初始化腳本
-│   ├── db.js           # 資料庫連線設定
-│   ├── index.js        # API 伺服器進入點
-│   └── package.json    # 後端 npm 腳本與依賴
-├── src/                # 前端應用程式原始碼 (React)
-│   ├── components/     # React UI 元件
-│   ├── features/       # 產品線特定功能 (ai, aus)
-│   ├── i18n/           # 國際化 (i18next) 設定
-│   ├── pages/          # 頁面級元件 (路由對應)
-│   ├── stores/         # 狀態管理 (Zustand)
-│   ├── types/          # TypeScript 型別定義
-│   ├── App.tsx         # 應用程式主元件與路由
-│   └── index.tsx       # 應用程式進入點
-├── .eslintrc.cjs       # ESLint 設定檔
-├── index.html          # 應用程式 HTML 入口
-├── Manual.md           # 本操作手冊
-├── package.json        # 專案定義與 npm 腳本
-├── tsconfig.json       # TypeScript 編譯器設定
-└── vite.config.ts      # Vite 建置工具設定
 ```
+/team-task-manager
+|-- .github/            # GitHub Actions 工作流程 (例如 CI/CD)
+|-- public/             # 靜態資源 (圖片, locales翻譯檔)
+|-- server/             # 後端 API 伺服器 (Node.js/Express)
+|   |-- Dockerfile      # 後端服務的 Docker 容器設定
+|   |-- database.sql    # 資料庫初始化腳本
+|   |-- index.js        # API 伺服器進入點
+|   `-- package.json    # 後端 npm 腳本與依賴
+|-- src/                # 前端應用程式原始碼 (React)
+|   |-- components/     # 可重複使用的 React UI 元件
+|   |-- i18n/           # 國際化 (i18next) 設定
+|   |-- pages/          # 頁面級元件 (對應一個路由)
+|   |-- stores/         # 全域狀態管理 (Zustand)
+|   |-- App.tsx         # 應用程式主元件與路由定義
+|   `-- index.tsx       # 應用程式掛載到 DOM 的進入點
+|-- tests/              # Playwright E2E 測試腳本
+|   `-- auth.spec.ts    # 認證流程的自動化測試
+|-- docker-compose.yml  # Docker 容器編排設定檔 (協調所有服務)
+|-- Dockerfile          # 前端服務的 Docker 容器設定
+|-- Manual.md           # 本操作手冊
+|-- package.json        # 前端專案定義與 npm 腳本
+`-- playwright.config.ts # Playwright E2E 測試設定檔
+```
+
+-   **核心理念**: 採用前後端分離架構。前端 (`src`) 是一個獨立的 React SPA，後端 (`server`) 是一個獨立的 Node.js API 服務。兩者在開發環境中透過 `docker-compose.yml` 協同工作，但在生產環境中可以獨立部署。
+-   **容器化**: 整個專案被設計為可透過 Docker 完全容器化，`Dockerfile` 定義了單一服務的環境，而 `docker-compose.yml` 則負責將所有服務（前端、後端、資料庫）串連起來，實現一鍵啟動。
+-   **狀態管理**: 前端使用 `Zustand` 進行輕量級的狀態管理，所有與UI相關的狀態和從後端獲取的數據都應儲存在對應的 store 中。
 
 </details>
 
-### 核心概念與開發提示 (Core Concepts & Tips)
+### 2.4 測試策略 (Testing Strategy)
 
--   **狀態管理 (`/src/stores/appStore.ts`)**: 
-    -   本專案使用 `Zustand` 進行全域狀態管理，它以輕量、易用著稱。
-    -   `appStore` 集中管理了所有核心資料，如 `tasks`, `currentUser`, `filters` 等。
-    -   所有對資料的操作 (新增、修改、刪除任務) 都應透過 store 中的 actions 進行，以確保資料流的單向與可預測性。
+本專案採用分層測試策略，確保程式碼的品質與穩定性。
 
--   **資料持久化 (`/src/utils/storage.ts`)**:
-    -   應用程式的狀態 (如任務列表、目前使用者) 會透過 `storage.ts` 存儲在瀏覽器的 `localStorage` 中。
-    -   這使得使用者在重新整理頁面後，資料依然存在。
-    -   `Zustand` 的 `persist` middleware 簡化了這個過程。
+-   **單元/元件測試 (Unit/Component Testing)**:
+    -   **工具**: Vitest & React Testing Library
+    -   **指令**: `npm run test`
+    -   **目的**: 針對單一的 React 元件或工具函數進行測試，確保其在隔離環境下能正常運作。
 
--   **環境變數 (`/.env.local`)**:
-    -   若有需要區分開發與生產環境的變數 (例如 API 金鑰)，可以建立 `.env.local` 檔案。
-    -   Vite 會自動載入這些變數。變數必須以 `VITE_` 開頭，例如 `VITE_API_URL=http://localhost:3000`。
-    -   這些變數可以透過 `import.meta.env.VITE_API_URL` 在程式碼中存取。
-
-### 後端 API 伺服器 (Backend API Server)
-
-本專案包含一個位於 `server/` 目錄的後端 API 服務，基於 Node.js 和 Express.js。
-
--   **用途**: 此伺服器提供使用者認證 (註冊、登入)、資料庫操作 (讀取使用者列表、任務管理) 以及檔案管理等後端功能。
--   **資料庫**: 使用 PostgreSQL 作為資料庫。
--   **注意**: 此後端服務**沒有圖形化使用者介面 (GUI)**。它僅作為一個 API 端點，供前端應用程式調用。
-
-**如何啟動後端伺服器:**
-
-1.  **前置要求**: 確保後端資料庫正在運行 (請參考下方的 "使用者認證功能測試計畫" 中的 Docker 設定步驟)。
-2.  **安裝依賴**:
-    ```bash
-    cd server
-    npm install
-    ```
-3.  **啟動伺服器**:
-    ```bash
-    npm start
-    ```
-    -   伺服器將會運行在 `http://localhost:3001`。
-    -   請保持此終端機視窗開啟，以便前端可以與之通訊。
-
-## 日常開發流程 (Daily Development Workflow)
-
-以下為建議的日常開發與提交程式碼的流程。
-
-1.  **啟動開發環境**:
-    ```bash
-    # 確保已安裝最新依賴
-    npm install
-
-    # 啟動開發伺服器
-    npm run dev
-    ```
-
-2.  **進行程式碼開發**:
-    -   在 `src` 目錄下進行功能開發或修復錯誤。
-    -   Vite 的 HMR 會即時更新畫面，方便預覽。
-
-3.  **提交前進行品質檢查**:
-    在準備提交程式碼前，執行以下指令確保品質。
-    ```bash
-    # 檢查程式碼風格問題
-    npm run lint
-
-    # 自動修正可修復的格式問題
-    npm run format
-
-    # 執行所有測試，確保沒有破壞現有功能
-    npm run test
-    ```
-
-4.  **建置生產版本 (可選)**:
-    若要預覽生產環境的最終成果，可以執行建置指令。
-    ```bash
-    # 此指令會將優化過的靜態檔案輸出到 /dist 目錄
-    npm run build
-
-    # (可選) 預覽建置後的成果
-    npm run preview
-    ```
+-   **端對端測試 (End-to-End Testing)**:
+    -   **工具**: Playwright
+    -   **指令**: `npm run test:e2e`
+    -   **目的**: 模擬真實使用者，在瀏覽器中執行完整的操作流程，以驗證前後端整合後的核心功能是否正常。
+    -   **主要測試案例**: 
+        -   **使用者認證流程**: 測試涵蓋了「註冊新用戶 -> 登出 -> 使用新用戶資訊重新登入」的完整閉環，確保認證系統的正確性。
 
 ---
 
-## Backend API
+## 3. 進階設定與指南 (Advanced Setup & Guides)
 
-The backend server provides the following APIs:
+### 3.1 團隊協作：使用雲端資料庫 (Supabase)
 
-### Authentication
+當團隊需要一個共享的資料庫進行協作開發時，可以選擇連接到 Supabase 的雲端 PostgreSQL 服務。這避免了在本機手動同步資料庫的麻煩。
 
-- `POST /api/auth/register`: Register a new user.
-- `POST /api/auth/login`: Log in a user and get a JWT token.
-- `GET /api/auth/me`: Get the current user's data. Requires a valid JWT token in the `x-auth-token` header.
+**設定步驟：**
 
-### File Management
+1.  **註冊並建立專案**:
+    -   前往 [Supabase](https://supabase.com/) 並註冊一個帳號。
+    -   登入後，點擊 "New Project" 建立一個新專案。為您的組織和專案命名，並產生一個安全的資料庫密碼（請務必將其儲存好）。
+    -   選擇離您最近的地區，然後點擊 "Create new project"。等待幾分鐘讓專案初始化。
 
-- `GET /api/files`: Get a list of all files in the `/docs` directory.
-- `POST /api/files/upload`: Upload a file to the `/docs` directory.
-- `DELETE /api/files/:path`: Delete a file from the `/docs` directory.
+2.  **取得資料庫連接字串**:
+    -   專案儀表板載入後，在左側導覽列點擊齒輪圖示的 "Project Settings"。
+    -   在設定頁面中，選擇 "Database"。
+    -   找到 "Connection string" 區塊，並選擇 "URI" 格式。
+    -   這就是您的 `DATABASE_URL`。它看起來會像這樣：`postgresql://postgres:[YOUR-PASSWORD]@db.xxxxxxxx.supabase.co:5432/postgres`。
 
----
+3.  **設定本地環境**:
+    -   在您的 `team-task-manager` 專案的 `server/` 目錄下，建立一個名為 `.env` 的檔案。
+    -   在 `.env` 檔案中，加入以下內容，並將您剛剛複製的連接字串貼上：
+        ```
+        DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.xxxxxxxx.supabase.co:5432/postgres
+        ```
+    -   **重要**: 請務必將 `[YOUR-PASSWORD]` 替換為您在建立專案時設定的資料庫密碼。
 
-## 使用者認證功能測試計畫 (User Authentication Test Plan)
+4.  **啟動方式**: 設定好 `.env` 後，後端服務會優先使用該 `DATABASE_URL`。您仍然可以使用 `npm run dev:docker` 啟動，Docker 會運行所有服務，但後端會連接到您指定的 Supabase 資料庫，而非本地的 `db` 容器。
 
-**測試環境準備 (Test Environment Setup):**
+### 3.2 整合 Botpress Chatbot
 
-本專案的後端服務依賴 PostgreSQL 資料庫。為簡化設定並確保環境一致，我們強烈建議使用 Docker 來運行資料庫。
+您可以為本專案添加一個由 [Botpress](https://botpress.com/) 驅動的 AI 聊天機器人，以處理常見問題或引導使用者。
 
-**步驟一：啟動資料庫 (使用 Docker)**
+**整合步驟：**
 
-1.  **前置要求**: 請先根據您的作業系統，從 [Docker 官方網站](https://www.docker.com/products/docker-desktop/)下載並安裝 Docker Desktop，並確保其正在背景運行。
+1.  **在 Botpress Cloud 建立機器人**:
+    -   前往 [Botpress Cloud](https://app.botpress.cloud/) 並註冊一個帳號。
+    -   登入後，建立一個新的聊天機器人 (您可以從一個空白模板開始)。
+    -   使用內建的流程編輯器 (Flow Editor) 來設計對話。例如，建立一個簡單的問候節點，當使用者說「你好」時，機器人回應「您好！有什麼可以幫助您的嗎？」。
 
-2.  **啟動容器**: 開啟一個終端機，**並確保您位於專案的根目錄** (`team-task-manager`)，然後執行以下指令：
-    ```bash
-    docker compose -f server/docker-compose.yml up -d
-    ```
-    *   此指令會讀取 `server` 目錄下的設定檔，並在背景啟動一個名為 `task-manager-db` 的 PostgreSQL 資料庫容器。
-    *   **測試結果**: 執行 `docker compose -f server/docker-compose.yml up -d` 後，容器已成功啟動並運行。使用 `docker ps` 確認，`task-manager-db` 容器狀態為 `Up`。
+2.  **取得嵌入腳本**:
+    -   在您的 Botpress 儀表板中，點擊右上角的 "Flows" 按鈕旁邊的火箭圖示 (發布按鈕) 來發布您的機器人。
+    -   發布後，導覽至左側選單的 "Integrations" (整合)。
+    -   選擇 "Webchat" 整合，並保持預設設定。
+    -   在 "Pre-configured" (預配置) 區塊，您會看到一個 `<script>` 程式碼片段。點擊複製此程式碼。
 
-3.  **驗證容器狀態**: 執行以下指令，確認容器正在運行中：
-    ```bash
-    docker ps
-    ```
-    您應該能在列表中看到 `task-manager-db` 的容器資訊。
+3.  **將腳本添加到專案中**:
+    -   打開專案根目錄下的 `index.html` 檔案。
+    -   將您剛剛複製的 `<script>` 程式碼片段，貼到 `<body>` 標籤的結尾處，如下所示：
+        ```html
+          ... 
+          <div id="root"></div>
+          <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+          <script>
+            window.botpressWebChat.init({ 
+              "botId": "YOUR_BOT_ID", 
+              "hostUrl": "https://cdn.botpress.cloud/webchat/v1",
+              // ... 其他設定
+            });
+          </script>
+        </body>
+        ```
+    -   **重要**: 請確保您使用的是從自己 Botpress 帳號複製的腳本，因為其中包含了您唯一的 `botId`。
 
-**步驟二：初始化資料庫**
+4.  **在應用中驗證**:
+    -   儲存 `index.html` 檔案。
+    -   執行 `npm run dev:docker` 啟動您的應用程式。
+    -   現在，您應該會在畫面的右下角看到一個聊天機器人的圖示。點擊它，即可開始與您在 Botpress 中設計的機器人進行互動。
 
-首次啟動資料庫後，您需要建立應用程式所需的資料表。**請在專案根目錄**執行以下指令，它會將 `database.sql` 的內容導入到 Docker 容器內的資料庫中：
-```bash
-# For Windows Command Prompt:
-type server\database.sql | docker exec -i task-manager-db psql -U postgres -d task_manager
-# For PowerShell:
-# Get-Content server/database.sql | docker exec -i task-manager-db psql -U postgres -d task_manager
-# For Git Bash/WSL:
-# cat server/database.sql | docker exec -i task-manager-db psql -U postgres -d task_manager
-```
-*   此指令執行後，不應看到任何錯誤訊息。如果出現 `ERROR: database "task_manager" already exists`，這是正常的，表示資料庫已存在，但資料表仍會被建立。
+### 3.3 無 Docker 環境手動設定 (替代方案)
 
-**步驟三：啟動後端伺服器**
+若您無法使用 Docker，可以手動設定開發環境。
 
-在同一個終端機中 (仍在專案根目錄)，執行以下指令來啟動後端 Node.js 伺服器：
-```bash
-cd server && npm start
-```
-*   您應該會看到伺服器在 port 3001 上成功運行的日誌。
-*   **如果遇到 `bcrypt` 相關錯誤 (例如 `ERR_DLOPEN_FAILED`)，請`cd team-task-manager/server && rm -rf node_modules && npm install`，然後再次嘗試啟動伺服器。**
-*   請讓此終端機保持開啟。
-
-**步驟四：啟動前端應用**
-
-1.  開啟一個**新的終端機**。
-2.  **再次進入專案根目錄**：`cd path/to/team-task-manager`
-3.  執行以下指令來啟動前端 Vite 開發伺服器：
-    ```bash
-    npm run dev
-    ```
-*   前端應用現在應該可以透過 `http://localhost:5173` 訪問。
-
----
-
-**測試案例 1: 使用者註冊 (Test Case 1: User Registration)**
-
-*   **步驟 (Steps):**
-    1.  打開瀏覽器，訪問 `http://localhost:5173/register`。
-    2.  在註冊表單中，輸入一個新的使用者名稱、電子郵件地址和密碼。
-    3.  點擊 "Register" 按鈕。
-*   **預期結果 (Expected Results):**
-    1.  頁面應成功跳轉到主頁 (`/`)。
-    2.  打開瀏覽器的開發者工具 (Developer Tools)，在 "Application" -> "Local Storage" 中，應能看到一個名為 `token` 的項目，其值為一個 JWT 字串。
-    3.  在後端資料庫的 `users` 表中，應能查詢到一條對應的新使用者紀錄，其密碼欄位應為一段加密後的雜湊值。
-*   **狀態 (Status):** <font color="blue">待手動驗證 (Awaiting Manual Verification)</font>
-
----
-
-**測試案例 2: 使用者登入 (Test Case 2: User Login)**
-
-*   **步驟 (Steps):**
-    1.  (如果已登入) 請先清除瀏覽器的 Local Storage。
-    2.  打開瀏覽器，訪問 `http://localhost:5173/login`。
-    3.  在登入表單中，輸入上一步驟中註冊的電子郵件地址和密碼。
-    4.  點擊 "Login" 按鈕。
-*   **預期結果 (Expected Results):**
-    1.  頁面應成功跳轉到主頁 (`/`)。
-    2.  在瀏覽器的 Local Storage 中，應再次看到一個新的 `token`。
-*   **狀態 (Status):** <font color="blue">待手動驗證 (Awaiting Manual Verification)</font>
+1.  **安裝 Node.js 和 PostgreSQL**。
+2.  **手動建立資料庫**: 執行 `server/database.sql` 來初始化資料庫。
+3.  **安裝依賴**: 分別在根目錄和 `server/` 目錄下執行 `npm install`。
+4.  **啟動後端**: 在 `server/` 目錄下執行 `npm start`。
+5.  **啟動前端**: 在根目錄下執行 `npm run dev`。

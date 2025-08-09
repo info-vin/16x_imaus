@@ -1,4 +1,8 @@
 {
+  "app.title": "ProjectFlow",
+  "nav.home": "首頁",
+  "nav.about": "關於",
+  "about.title": "關於我們 & 案例研究",
   "headerSubtitle": "簡易團隊任務管理器",
   "tasksTitle": "任務列表",
   "addNewTask": "新增任務",
@@ -40,5 +44,7 @@
   "priority.low": "低",
   "priority.medium": "中",
   "priority.high": "高",
-  "home.dashboardTitle": "智慧製造與人力資源整合儀表板 v1.3"
+  "home.dashboardTitle": "智慧製造與人力資源整合儀表板 v1.3",
+  "login.title": "登入",
+  "register.title": "註冊"
 }

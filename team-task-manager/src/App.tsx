@@ -1,4 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -20,7 +22,8 @@ function App() {
   }, [init]);
 
   return (
-    <Router>
+    <I18nextProvider i18n={i18n}>
+      <Router>
       <Routes>
         {/* Routes without MainLayout */}
         <Route path="/" element={<HomePage />} />
@@ -50,6 +53,7 @@ function App() {
         </span>
       </CookieConsent>
     </Router>
+    </I18nextProvider>
   );
 }
 

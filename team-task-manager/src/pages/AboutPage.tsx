@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -7,6 +8,7 @@ import { Navigation, Pagination } from 'swiper/modules';
 import * as mammoth from 'mammoth';
 
 const AboutPage: React.FC = () => {
+  const { t } = useTranslation();
   const [slides, setSlides] = useState<string[]>([]);
 
   useEffect(() => {
@@ -36,6 +38,7 @@ const AboutPage: React.FC = () => {
 
   return (
     <div className="p-8 bg-gray-100 dark:bg-gray-900">
+      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white">{t('about.title')}</h1>
       <Swiper
         modules={[Navigation, Pagination]}
         spaceBetween={50}

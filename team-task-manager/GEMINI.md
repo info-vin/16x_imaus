@@ -76,7 +76,7 @@ This document outlines the development process for the ProjectFlow application, 
 
 - **Objective:** Prepare the application for deployment and complete documentation.
 - **Deployment:** The application is built with `npm run build` and is ready for deployment on static hosting platforms like Netlify or Vercel.
-- **Documentation:** This `@GEMINI.md` file serves as the primary development log. Code comments have been added where necessary to clarify complex logic.
+- **Documentation:** This `GEMINI.md` file serves as the primary development log. Code comments have been added where necessary to clarify complex logic.
 
 ## Post-Development Updates
 
@@ -201,112 +201,6 @@ This document outlines the development process for the ProjectFlow application, 
 - **Objective:** Design a comprehensive full-stack architecture to evolve the application from a front-end prototype to a scalable, multi-product platform.
 - **Action:** Analyzed requirements for multi-language support, user authentication, legal compliance, database integration, and a multi-product structure. Authored a detailed design document outlining the technical approach.
 
----
-
-### **全端應用架構升級設計說明 (修訂版)**
-
-#### **1. 總體目標**
-
-本次設計旨在將現有的前端任務管理器 (`team-task-manager`) 升級為一個功能完整、可擴展、安全且支援多產品線的全端 Web 應用程式。此架構將保留現有技術棧的優點（React, TypeScript, Vite），並引入強健的後端服務、資料庫和雲端整合，以滿足未來的業務增長需求。
-
-#### **2. 設計方案詳解**
-
-**2.1. 多語系架構 (Multi-language)**
-
-*   **現狀分析:** 專案已採用 `i18next` 和 `react-i18next`，並成功實現了中、英、日文切換。這是一個非常好的基礎。
-*   **設計方案:**
-    1.  **擴展語言包:** 在 `public/locales/` 目錄下，按照 `i18next` 的標準格式新增韓文 (`ko-KR.json`)、越南文 (`vi-VN.json`) 等語言的翻譯文件。
-    2.  **動態加載:** 維持現有的語言包異步加載機制，確保新增語言不會影響初始頁面加載速度。
-    3.  **UI 更新:** 修改 `src/components/LanguageSelector.tsx` 組件，將新的語言選項加入到下拉列表中。
-    4.  **中心化管理:** 當語系文件變得龐大時，考慮引入一個翻譯管理平台（如 Tolgee, Lokalise 的免費方案），透過 API 來管理和同步翻譯內容，簡化維護流程。
-
-**2.2. 使用者認證系統 (Authentication)**
-
-*   **現狀分析:** 目前僅為一個模擬的本地用戶切換器，並無實際的用戶註冊和登入功能。
-*   **設計方案:**
-    1.  **後端服務:** 建立一個新的 Node.js 後端服務（使用 Express.js 或 NestJS 框架），專門處理用戶認證。
-    2.  **資料庫:** 引入 **PostgreSQL** 作為用戶資料庫。它免費、開源且功能強大，足以應對未來需求。我們將建立一個 `users` 資料表，儲存用戶 ID、用戶名、電子郵件和經過 **bcrypt** 加密的密碼。
-    3.  **認證機制:** 採用 **JWT (JSON Web Tokens)** 進行無狀態認證。
-        *   **註冊 (`/api/auth/register`):** 接收用戶資料，加密密碼後存入資料庫。
-        *   **登入 (`/api/auth/login`):** 驗證用戶憑證，成功後生成 JWT 並返回給前端。
-        *   **忘記密碼 (`/api/auth/forgot-password`):** 生成一個有時效性的重設密碼連結，並透過郵件服務（如 SendGrid 的免費方案）發送給用戶。
-    4.  **前端整合:**
-        *   創建新的路由和頁面：`/login`, `/register`, `/forgot-password`。
-        *   用戶登入成功後，將 JWT 儲存在 `localStorage` 或安全的 `HttpOnly` Cookie 中。
-        *   修改 `appStore.ts` (Zustand)，將 `currentUser` 的狀態與 JWT 的驗證結果同步，而非從靜態列表讀取。
-
-**2.3. 台灣法規遵循 (Legal Compliance)**
-
-*   **設計方案:**
-    1.  **隱私權政策頁面:** 新增一個靜態路由 `/privacy-policy`，展示符合台灣《個人資料保護法》的隱私權政策條款。
-    2.  **Cookie 同意橫幅:** 在應用程式首次加載時，顯示一個 Cookie 同意橫幅。可以使用 `react-cookie-consent` 等開源組件快速實現，告知用戶網站將使用的 Cookie類型。
-    3.  **數據安全:**
-        *   **儲存加密:** 用戶密碼必須使用 `bcrypt` 進行單向雜湊加密。
-        *   **用戶數據權利:** 在用戶個人資料頁面，提供 "匯出個人資料" 和 "刪除帳號" 的功能選項，後端需實現對應的 API 來處理這些請求。
-
-**2.4. 免費小型資料庫整合**
-
-*   **設計方案:**
-    1.  **主要資料庫 (PostgreSQL):** 如上所述，用於儲存核心業務資料，如用戶、任務、專案等。它提供完整的關聯式數據能力，並且有許多免費的雲端託管選項（如 Supabase, Neon, Heroku）。
-    2.  **快取/緩存資料庫 (Redis):** 引入 Redis 作為一個高速的內存資料庫。它非常適合用於：
-        *   **Session 儲存:** 儲存用戶登入狀態或臨時數據。
-        *   **API 快取:** 緩存不常變動的數據庫查詢結果，降低主資料庫負載。
-        *   **排行榜/計數器:** 實現即時性要求高的功能。
-        Redis 也有許多提供免費額度的雲端服務。
-    3.  **任務數據遷移:** 現有的任務管理邏輯將從 `localStorage` 遷移至後端的 PostgreSQL 資料庫，並與 `users` 表關聯。
-
-**2.5. "ai" 與 "AUS" 雙產品線架構**
-
-*   **設計方案:**
-    1.  **URL 路由策略:**
-        *   在前端路由中劃分產品命名空間，例如：
-            *   AI 產品: `/ai/dashboard`, `/ai/settings`
-            *   AUS 產品: `/aus/kanban`, `/aus/reports`
-        *   這樣可以清晰地將不同產品的功能模組隔離開。
-    2.  **程式碼結構:**
-        *   在 `src/` 目錄下建立 `features` 文件夾，用於存放特定產品的業務邏輯和組件：
-            ```
-            src/
-            ├── features/
-            │   ├── ai/
-            │   │   ├── components/
-            │   │   └── routes/
-            │   ├── aus/
-            │   │   ├── components/
-            │   │   └── routes/
-            └── components/ (存放共用組件)
-            ```
-    3.  **資料庫模型:**
-        *   在核心的資料表中（如 `tasks`, `projects`），增加一個 `product_line` 字段（`'ai'` 或 `'aus'`）。
-        *   這樣，後端 API 可以根據用戶當前所在的產品線（從 URL 或請求中獲取）來過濾和提供對應的數據。
-    4.  **狀態管理 (Zustand):**
-        *   在 `appStore` 中增加一個 `currentProduct` 狀態，用於標識用戶當前正在使用的產品。UI 和數據請求可以根據此狀態動態調整。
-
----
-
-#### **3. 待開發項目 (Future Development)**
-
-以下項目已記錄，將在未來的開發階段中實施：
-
-*   **全站強制 HTTPS:** 部署時配置 Web 伺服器或負載均衡器，強制所有 HTTP 請求跳轉至 HTTPS。
-*   **網頁檔案上傳功能:** 包含前端上傳組件、後端接收 API 以及與雲端對象儲存（如 Cloudflare R2）的整合。
-
----
-
-#### **4. 下一步行動**
-
-我已根據您的要求完成了修訂版的架構設計。請您審閱。
-
-**一旦您確認此方案，我將按照您的指示執行以下步驟：**
-
-1.  將這份修訂後的設計說明更新至 `GEMINI.md` 文件中。
-2.  執行 `git commit`，將更新後的 `GEMINI.md` 提交到 `dev` 分支。
-3.  創建一個新的 `feature/full-stack-upgrade` 分支，並切換至該分支。
-4.  開始進行程式碼的修改與開發，逐步實現上述功能。
-5.  在開發過程中，將階段性的測試結果和進度更新至 `GEMINI.md`。
-
-請指示是否可以繼續。
-
 ### Day 24: User Authentication Implementation & Testing
 
 - **Objective:** Implement and test the user registration and login functionality.
@@ -421,3 +315,54 @@ This document outlines the development process for the ProjectFlow application, 
       - **Fix:** Updated `Manual.md` with a new "Backend API Server" section under the "Developer's Technical Guide," providing clear instructions for installing dependencies and starting the server.
       - **Fix:** Revised the project structure diagram in `Manual.md` to accurately reflect the current layout, including the `server` directory and the refactored `src` folder.
 - **Reason:** These changes resolve major functionality blockers, ensure the application's user data is synchronized with the backend, and provide clear, accurate documentation for developers, improving the overall stability and maintainability of the project.
+
+### Day 34: Project Refinement & Upgrade Plan (Todolist)
+
+- **Objective:** Execute a comprehensive, multi-stage plan to enhance the project's architecture, testing, and feature set based on the revised `Rework_Plan.md`.
+- **Status:** Completed
+
+---
+
+#### **Phase 1: Internationalization (i18n) Fixes**
+- [x] **Action:** Relocated `i18next` initialization to the top-level entry point (`src/index.tsx`) to ensure it wraps the entire application.
+- [x] **Action:** Enabled `i18next` debug mode (`debug: true`) in the development environment to trace and resolve missing translation keys.
+- [x] **Action:** Conducted a full code audit to replace all hardcoded UI text with the `t('key')` translation function.
+- [x] **Action:** Implemented a language-passing mechanism for the homepage `iframe` to synchronize its content with the main application's language.
+- [x] **Verification:** Confirmed that all pages (`HomePage`, `AboutPage`, `FlowPage`, etc.) correctly switch languages in unison.
+
+#### **Phase 2: Database Architecture & Team Synchronization**
+- [x] **Action:** Added a dedicated `postgres_test` service to the `server/docker-compose.yml` file for isolated end-to-end testing.
+- [x] **Action:** Authored a new "Cloud Database Development Sync (Supabase)" guide in `Manual.md`.
+- [x] **Action:** The guide provides step-by-step instructions for setting up a free PostgreSQL instance on Supabase and connecting it to the local development environment via the `.env` file.
+- [x] **Verification:** The development environment can now connect to a cloud database, and a local test database is available for E2E tests.
+
+#### **Phase 3: End-to-End (E2E) Automation with Playwright**
+- [x] **Action:** Installed and configured the Playwright testing framework.
+- [x] **Action:** Created an E2E test script covering the full user authentication flow (register, login, logout).
+- [x] **Action:** Added a `test:e2e` script to `package.json` for easy execution.
+- [x] **Action:** Updated `Manual.md` with a new "End-to-End Testing" section detailing the setup and execution process.
+- [x] **Verification:** E2E tests can be run via `npm run test:e2e`.
+
+#### **Phase 4: Botpress Chatbot Integration**
+- [x] **Action:** Authored a new "Integrating a Botpress Chatbot" guide in `Manual.md`.
+- [x] **Action:** The guide details how to create a bot on the Botpress Cloud platform and design a basic conversation flow.
+- [x] **Action:** The guide explains how to obtain the bot's webchat embed script.
+- [x] **Action:** The guide provides instructions on how to inject the script into the React application's `index.html`.
+- [x] **Verification:** The documentation for chatbot integration is now complete and available in `Manual.md`.
+
+#### **Phase 5: Full-Stack Docker Containerization**
+- [x] **Action:** Created a `Dockerfile` for the frontend Vite application.
+- [x] **Action:** Created a `Dockerfile` for the backend Express application.
+- [x] **Action:** Re-architected the `docker-compose.yml` to orchestrate all services: `frontend`, `backend`, `db`, and `db_test`.
+- [x] **Action:** Added simplified `dev:docker` and `stop:docker` scripts to `package.json`.
+- [x] **Action:** Updated the core "Installation and Setup" section of `Manual.md` to establish Docker as the primary, recommended development environment.
+- [x] **Verification:** The entire application stack can be successfully launched with a single `npm run dev:docker` command.
+
+### Day 38: Documentation Finalization
+
+- **Objective:** Correct and complete the `Manual.md` after the previous refactoring pass inadvertently removed critical sections.
+- **Action:**
+  1.  **Restored Missing Guides:** Re-inserted the full, detailed guides for setting up a Supabase cloud database and for integrating a Botpress chatbot.
+  2.  **Expanded Project Architecture:** Enhanced the architecture section with a more detailed file/directory breakdown and an explanation of the core design principles (containerization, state management).
+  3.  **Added Testing Strategy:** Created a new section to explain the project's testing layers (Unit vs. E2E) and to explicitly mention the primary E2E test case for user authentication.
+- **Status:** <font color="green">Completed</font>
