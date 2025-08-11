@@ -366,3 +366,12 @@ This document outlines the development process for the ProjectFlow application, 
   2.  **Expanded Project Architecture:** Enhanced the architecture section with a more detailed file/directory breakdown and an explanation of the core design principles (containerization, state management).
   3.  **Added Testing Strategy:** Created a new section to explain the project's testing layers (Unit vs. E2E) and to explicitly mention the primary E2E test case for user authentication.
 - **Status:** <font color="green">Completed</font>
+
+### Day 35: Refined Registration Flow and Documentation
+
+- **Objective:** Improve the user registration experience and update documentation to reflect the new workflow.
+- **Action:**
+  1.  **Enhanced Registration UI:** Modified the registration process. After a user clicks "Register," the system now provides immediate feedback. Upon successful insertion of credentials into the database, a "Registration Successful" confirmation message is displayed.
+  2.  **Streamlined User Journey:** After the user acknowledges the success message by clicking "OK," they are redirected to the homepage. From there, they can proceed to log in, and upon successful authentication, they are directed to the main task board at `/flow.html`.
+  3.  **Updated Manual:** Revised the user authentication testing steps in `Manual.md` to match this new, more intuitive flow.
+- **Reason:** This refinement provides clearer feedback to the user during registration and creates a more logical and seamless journey from sign-up to application usage.

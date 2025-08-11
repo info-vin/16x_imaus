@@ -18,7 +18,7 @@ const RegisterPage: React.FC = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        navigate('/');
+        navigate('/register-success');
       } else {
         console.error(data);
       }
