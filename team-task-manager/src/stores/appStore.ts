@@ -35,6 +35,7 @@ interface AppState {
   setTaskModalOpen: (isOpen: boolean) => void;
   setEditingTask: (task: Task | null) => void;
   fetchTeamMembers: () => Promise<void>; // Add this
+  logout: () => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -126,7 +127,13 @@ export const useAppStore = create<AppState>((set, get) => ({
 
   setViewMode: (mode) => set({ viewMode: mode }),
 
-  setTaskModalOpen: (isOpen) => set({ isTaskModalOpen: isOpen }),
+  setTaskModalOpen: (isOpen) => {
+  // --- 開始加入偵錯碼 ---
+  console.log(`TaskModal 狀態被設定為: ${isOpen}`);
+  console.trace('追蹤呼叫來源'); 
+  // --- 結束偵錯碼 ---
+  set({ isTaskModalOpen: isOpen });
+ },
 
   setEditingTask: (task) => set({ editingTask: task }),
 
@@ -153,5 +160,24 @@ export const useAppStore = create<AppState>((set, get) => ({
     } catch (error) {
       console.error('Error fetching team members:', error);
     }
+  },
+
+  logout: () => {
+    // Clear user session from storage
+    localStorage.removeItem('token');
+    saveToStorage(STORAGE_KEYS.CURRENT_USER_ID, null);
+
+    // Reset state to initial values
+    set({
+      currentUser: null,
+      isTaskModalOpen: false,
+      editingTask: null,
+      filters: {
+        search: '',
+        status: 'all',
+        priority: 'all',
+        view: 'all',
+      },
+    });
   },
 }));

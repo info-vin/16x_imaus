@@ -1,0 +1,44 @@
+
+services:
+  postgres_test:
+    image: postgres:13
+    container_name: task-manager-db-e2e-test
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: task_manager_test
+    ports:
+      - "5434:5432" # Use a different host port to avoid conflict with dev db
+    volumes:
+      - ./server/database.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend_test:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: task-manager-backend-e2e-test
+    restart: always
+    ports:
+      - "3002:3001" # Use a different host port
+    depends_on:
+      postgres_test:
+        condition: service_healthy
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@postgres_test:5432/task_manager_test
+
+  frontend_test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: task-manager-frontend-e2e-test
+    restart: always
+    ports:
+      - "5174:5173" # Use a different host port
+    depends_on:
+      - backend_test
