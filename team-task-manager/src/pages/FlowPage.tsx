@@ -26,10 +26,7 @@ const FlowPage: React.FC = () => {
         </button>
       </div>
       <KanbanView />
-      <TaskModal
-        task={null}
-        onClose={() => setTaskModalOpen(false)}
-      />
+      <TaskModal />
     </div>
   );
 };

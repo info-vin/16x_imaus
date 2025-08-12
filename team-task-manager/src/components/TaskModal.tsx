@@ -1,7 +1,7 @@
 import React, { useState, FormEvent, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../stores/appStore';
-import { useAppStore } from '../stores/appStore';
+import { TEAM_MEMBERS } from '../constants';
 import type { Task } from '../types';
 import { Priority, Status } from '../types';
 
@@ -10,8 +10,7 @@ interface TaskModalProps {
   onClose: () => void;
 }
 
-const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, task }) => {
-  const { addTask, updateTask, teamMembers } = useAppStore();
+const TaskModal: React.FC<TaskModalProps> = ({ task, onClose }) => {
   const { t } = useTranslation();
   const { addTask, updateTask, currentUser } = useAppStore();
 
@@ -178,7 +177,7 @@ const TaskModal: React.FC<TaskModalProps> = ({ isOpen, onClose, task }) => {
                   <option value="" disabled>
                     {t('selectAssignee')}
                   </option>
-                  {teamMembers.map((member) => (
+                  {TEAM_MEMBERS.map((member) => (
                     <option key={member.id} value={member.id}>
                       {member.name}
                     </option>

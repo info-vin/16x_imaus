@@ -28,7 +28,7 @@ function App() {
         {/* Routes without MainLayout */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
-  <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
         {/* Routes with MainLayout */}

@@ -37,14 +37,13 @@ const auth = (req, res, next) => {
 app.post('/api/auth/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const avatar = `https://i.pravatar.cc/150?u=${email}`;
 
     const salt = await bcrypt.genSalt(10);
     const bcryptPassword = await bcrypt.hash(password, salt);
 
     const newUser = await pool.query(
-      'INSERT INTO users (user_name, user_email, user_password, avatar) VALUES ($1, $2, $3, $4) RETURNING *',
-      [name, email, bcryptPassword, avatar]
+      'INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *',
+      [name, email, bcryptPassword]
     );
 
     const token = jwt.sign({ id: newUser.rows[0].user_id }, 'your_jwt_secret', { expiresIn: '1h' });
@@ -98,64 +97,8 @@ app.get('/api/auth/me', auth, async (req, res) => {
 // Get all users
 app.get('/api/users', auth, async (req, res) => {
   try {
-    const allUsers = await pool.query('SELECT user_id, user_name, user_email, avatar FROM users ORDER BY user_name ASC');
+    const allUsers = await pool.query('SELECT user_id, user_name, user_email FROM users ORDER BY user_name ASC');
     res.json(allUsers.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
-// Tasks API
-
-// Get all tasks for a user
-app.get('/api/tasks', auth, async (req, res) => {
-  try {
-    const tasks = await pool.query('SELECT * FROM tasks WHERE user_id = $1', [req.user.id]);
-    res.json(tasks.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
-// Create a task
-app.post('/api/tasks', auth, async (req, res) => {
-  try {
-    const { title, description, status, priority, due_date, assignee_id } = req.body;
-    const newTask = await pool.query(
-      'INSERT INTO tasks (user_id, title, description, status, priority, due_date, assignee_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-      [req.user.id, title, description, status, priority, due_date, assignee_id]
-    );
-    res.json(newTask.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
-// Update a task
-app.put('/api/tasks/:id', auth, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { title, description, status, priority, due_date, assignee_id } = req.body;
-    const updatedTask = await pool.query(
-      'UPDATE tasks SET title = $1, description = $2, status = $3, priority = $4, due_date = $5, assignee_id = $6, updated_at = NOW() WHERE task_id = $7 AND user_id = $8 RETURNING *',
-      [title, description, status, priority, due_date, assignee_id, id, req.user.id]
-    );
-    res.json(updatedTask.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-
-// Delete a task
-app.delete('/api/tasks/:id', auth, async (req, res) => {
-  try {
-    const { id } = req.params;
-    await pool.query('DELETE FROM tasks WHERE task_id = $1 AND user_id = $2', [id, req.user.id]);
-    res.json({ msg: 'Task deleted' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

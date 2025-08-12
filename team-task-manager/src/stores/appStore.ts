@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import type { Task, User } from '../types';
 import { Priority, Status } from '../types';
 import { loadFromStorage, saveToStorage } from '../utils/storage';
-import { STORAGE_KEYS } from '../constants';
+import { STORAGE_KEYS, TEAM_MEMBERS } from '../constants';
 
 interface AppState {
   tasks: Task[];
@@ -24,8 +24,7 @@ interface AppState {
       'id' | 'createdAt' | 'updatedAt' | 'createdBy'
     > & { title: string; assigneeId: number },
   ) => void;
-  fetchTasks: () => Promise<void>;
-  setTasks: (tasks: Task[]) => void;
+  updateTask: (id: string, updates: Partial<Task>) => void;
   deleteTask: (id: string) => void;
   setFilter: (filterName: keyof AppState['filters'], value: string) => void;
   getTasksForExport: () => Task[];
@@ -36,13 +35,12 @@ interface AppState {
   setTaskModalOpen: (isOpen: boolean) => void;
   setEditingTask: (task: Task | null) => void;
   fetchTeamMembers: () => Promise<void>; // Add this
-  fetchTasks: () => Promise<void>;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
   tasks: [],
   currentUser: null,
-  teamMembers: [],
+  teamMembers: [], // Add this
   viewMode: 'kanban',
   isTaskModalOpen: false,
   editingTask: null,
@@ -59,18 +57,13 @@ export const useAppStore = create<AppState>((set, get) => ({
       STORAGE_KEYS.CURRENT_USER_ID,
       null,
     );
+    const user = TEAM_MEMBERS.find((u) => u.id === savedUserId) || null;
 
     set({
       tasks: savedTasks,
+      currentUser: user,
+      filters: { ...get().filters, view: user ? 'my' : 'all' },
     });
-
-    if (savedUserId) {
-      get().fetchTeamMembers().then(() => {
-        const user = get().teamMembers.find((u) => u.id === savedUserId) || null;
-        set({ currentUser: user });
-      });
-      get().fetchTasks();
-    }
   },
 
   setCurrentUser: (user: User) => {
@@ -78,106 +71,39 @@ export const useAppStore = create<AppState>((set, get) => ({
     saveToStorage(STORAGE_KEYS.CURRENT_USER_ID, user.id);
   },
 
-  fetchTasks: async () => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-
-      const response = await fetch('http://localhost:3001/api/tasks', {
-        headers: {
-          'x-auth-token': token,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch tasks');
-      }
-
-      const tasks = await response.json();
-      set({ tasks });
-    } catch (error) {
-      console.error('Error fetching tasks:', error);
-    }
-  },
-
-  addTask: async (newTaskData) => {
+  addTask: (newTaskData) => {
     if (!get().currentUser) return;
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-
-      const response = await fetch('http://localhost:3001/api/tasks', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-auth-token': token,
-        },
-        body: JSON.stringify(newTaskData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to add task');
-      }
-
-      const newTask = await response.json();
-      const updatedTasks = [...get().tasks, newTask];
-      set({ tasks: updatedTasks });
-    } catch (error) {
-      console.error('Error adding task:', error);
-    }
+    const newTask: Task = {
+      id: uuidv4(),
+      title: newTaskData.title,
+      description: newTaskData.description || '',
+      status: newTaskData.status || Status.Pending,
+      priority: newTaskData.priority || Priority.Medium,
+      assigneeId: newTaskData.assigneeId,
+      dueDate: newTaskData.dueDate,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      createdBy: get().currentUser!.id,
+    };
+    const updatedTasks = [...get().tasks, newTask];
+    set({ tasks: updatedTasks });
+    saveToStorage(STORAGE_KEYS.TASKS, updatedTasks);
   },
 
-  updateTask: async (id, updates) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-
-      const response = await fetch(`http://localhost:3001/api/tasks/${id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-auth-token': token,
-          },
-          body: JSON.stringify(updates),
-        });
-
-      if (!response.ok) {
-        throw new Error('Failed to update task');
-      }
-
-      const updatedTask = await response.json();
-      const updatedTasks = get().tasks.map((task) =>
-        task.id === id ? updatedTask : task
-      );
-      set({ tasks: updatedTasks });
-    } catch (error) {
-      console.error('Error updating task:', error);
-    }
+  updateTask: (id, updates) => {
+    const updatedTasks = get().tasks.map((task) =>
+      task.id === id
+        ? { ...task, ...updates, updatedAt: new Date().toISOString() }
+        : task,
+    );
+    set({ tasks: updatedTasks });
+    saveToStorage(STORAGE_KEYS.TASKS, updatedTasks);
   },
 
-  deleteTask: async (id) => {
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) return;
-
-      const response = await fetch(`http://localhost:3001/api/tasks/${id}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'x-auth-token': token,
-          },
-        });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete task');
-      }
-
-      const updatedTasks = get().tasks.filter((task) => task.id !== id);
-      set({ tasks: updatedTasks });
-    } catch (error) {
-      console.error('Error deleting task:', error);
-    }
+  deleteTask: (id) => {
+    const updatedTasks = get().tasks.filter((task) => task.id !== id);
+    set({ tasks: updatedTasks });
+    saveToStorage(STORAGE_KEYS.TASKS, updatedTasks);
   },
 
   setFilter: (filterName, value) => {
@@ -221,7 +147,7 @@ export const useAppStore = create<AppState>((set, get) => ({
 
       const users = await response.json();
       // The backend returns user_id and user_name, we need to map to id and name
-      const formattedUsers = users.map((u: any) => ({ id: u.user_id, name: u.user_name, email: u.user_email, avatar: u.avatar || `https://i.pravatar.cc/150?u=${u.user_id}` }));
+      const formattedUsers = users.map((u: any) => ({ id: u.user_id, name: u.user_name, email: u.user_email }));
 
       set({ teamMembers: formattedUsers });
     } catch (error) {

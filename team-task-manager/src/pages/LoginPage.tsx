@@ -17,14 +17,12 @@ const LoginPage: React.FC = () => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        navigate('/flow.html');
+        navigate('/');
       } else {
         console.error(data);
-        navigate('/register');
       }
     } catch (error) {
       console.error('Login failed:', error);
-      navigate('/register');
     }
   };
 
