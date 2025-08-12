@@ -17,8 +17,18 @@ const RegisterPage: React.FC = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        navigate('/register-success');
+        const loginResponse = await fetch('http://localhost:3001/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        });
+        const loginData = await loginResponse.json();
+        if (loginResponse.ok) {
+          localStorage.setItem('token', loginData.token);
+          navigate('/flow.html');
+        } else {
+          navigate('/login');
+        }
       } else {
         console.error(data);
       }

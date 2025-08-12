@@ -358,7 +358,7 @@ This document outlines the development process for the ProjectFlow application, 
 - [x] **Action:** Updated the core "Installation and Setup" section of `Manual.md` to establish Docker as the primary, recommended development environment.
 - [x] **Verification:** The entire application stack can be successfully launched with a single `npm run dev:docker` command.
 
-### Day 38: Documentation Finalization
+### Day 35: Documentation Finalization
 
 - **Objective:** Correct and complete the `Manual.md` after the previous refactoring pass inadvertently removed critical sections.
 - **Action:**
@@ -367,7 +367,7 @@ This document outlines the development process for the ProjectFlow application, 
   3.  **Added Testing Strategy:** Created a new section to explain the project's testing layers (Unit vs. E2E) and to explicitly mention the primary E2E test case for user authentication.
 - **Status:** <font color="green">Completed</font>
 
-### Day 35: Refined Registration Flow and Documentation
+### Day 36: Refined Registration Flow and Documentation
 
 - **Objective:** Improve the user registration experience and update documentation to reflect the new workflow.
 - **Action:**
@@ -375,3 +375,22 @@ This document outlines the development process for the ProjectFlow application, 
   2.  **Streamlined User Journey:** After the user acknowledges the success message by clicking "OK," they are redirected to the homepage. From there, they can proceed to log in, and upon successful authentication, they are directed to the main task board at `/flow.html`.
   3.  **Updated Manual:** Revised the user authentication testing steps in `Manual.md` to match this new, more intuitive flow.
 - **Reason:** This refinement provides clearer feedback to the user during registration and creates a more logical and seamless journey from sign-up to application usage.
+
+### Day 37: Authentication and Data Synchronization Refinements
+
+- **Objective:** Refine the authentication flow, fix data synchronization issues, and improve the overall user experience.
+- **Action:**
+  1.  **Logout Functionality:** Added a fully functional logout button to the user dropdown menu. It clears the session token and redirects the user to the homepage.
+  2.  **Login/Registration Flow:**
+      -   Login now correctly redirects to the main task board (`/flow.html`) upon success and to the registration page upon failure.
+      -   The registration process now automatically logs the user in and redirects them directly to the task board, removing the intermediate "Registration Successful" page and streamlining the user journey.
+  3.  **Dynamic Data Fetching:**
+      -   Refactored the frontend state management (`appStore.ts`) to fetch both the user list and tasks directly from the backend API, making the database the single source of truth.
+      -   Removed the static `TEAM_MEMBERS` constant from the frontend, ensuring the user list is always up-to-date.
+  4.  **Database Schema Update:**
+      -   Enhanced the `users` table by adding an `avatar` column to store user profile images.
+      -   Added `created_at` and `updated_at` timestamps to both `users` and `tasks` tables for better data tracking.
+  5.  **Backend API Enhancement:**
+      -   Implemented full CRUD (Create, Read, Update, Delete) API endpoints for tasks.
+      -   Updated the user registration endpoint to handle the new `avatar` field.
+- **Reason:** These changes create a more robust and conventional user authentication experience, ensure data consistency between the frontend and backend, and lay a solid foundation for future feature development.

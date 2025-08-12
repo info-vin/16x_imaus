@@ -6,7 +6,7 @@ import { zhTW } from 'date-fns/locale/zh-TW';
 import { ja } from 'date-fns/locale/ja';
 import type { Task, User } from '../types';
 import { Priority, Status } from '../types';
-import { TEAM_MEMBERS } from '../constants';
+import { useAppStore } from '../stores/appStore';
 import { EditIcon } from './icons/EditIcon';
 import { TrashIcon } from './icons/TrashIcon';
 import { CalendarIcon } from './icons/CalendarIcon';
@@ -53,10 +53,11 @@ const localeMap: { [key: string]: Locale } = {
   'ja-JP': ja,
 };
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit, onDelete }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ task, onEdit }) => {
+  const { deleteTask, teamMembers } = useAppStore();
   const { t, i18n } = useTranslation();
-  const assignee = TEAM_MEMBERS.find((member) => member.id === task.assigneeId);
-  const createdBy = TEAM_MEMBERS.find((member) => member.id === task.createdBy);
+  const assignee = teamMembers.find((member) => member.id === task.assigneeId);
+  const createdBy = teamMembers.find((member) => member.id === task.createdBy);
 
   const handleDelete = () => {
     if (window.confirm(t('deleteConfirmation', { title: task.title }))) {
