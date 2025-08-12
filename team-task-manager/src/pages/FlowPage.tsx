@@ -1,16 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FilterControls from '../components/FilterControls';
 import KanbanView from '../components/KanbanView';
 import { PlusIcon } from '../components/icons/PlusIcon';
-import { useAppStore } from '../stores/appStore';
-import TaskModal from '../components/TaskModal';
+import TaskModal from '../components/TaskModal_v0.2.2';
+import type { Task } from '../types';
 
 const FlowPage: React.FC = () => {
-  const { setTaskModalOpen, setEditingTask } = useAppStore();
+  // 使用 React local state 來管理 Modal 的開關狀態和正在編輯的任務
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
 
+  // 這個函式可以傳遞給 KanbanView，以便點擊任務卡片時可以觸發編輯
+  // 假設 KanbanView 會接收一個 onEditTask 的 prop
+  const handleEditTask = (task: Task) => {
+    setEditingTask(task);
+    setIsModalOpen(true);
+  };
+
+  // 處理新增任務按鈕點擊事件
   const handleAddTask = () => {
-    setEditingTask(null);
-    setTaskModalOpen(true);
+    setEditingTask(null); // 設定為 null 表示是新增，而不是編輯
+    setIsModalOpen(true);
+  };
+
+  // 處理關閉 Modal 的事件，這個函式會傳遞給 TaskModal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setEditingTask(null); // 關閉時重置狀態
   };
 
   return (
@@ -25,8 +41,21 @@ const FlowPage: React.FC = () => {
           <span>New Task</span>
         </button>
       </div>
+
+      {/* 
+        您可能需要修改 KanbanView 來接收 onEditTask prop，
+        這樣才能實現點擊任務卡片進行編輯的功能。
+        例如: <KanbanView onEditTask={handleEditTask} />
+      */}
       <KanbanView />
-      <TaskModal />
+
+      {/* 條件渲染：只有當 isModalOpen 為 true 時，才顯示 TaskModal */}
+      {isModalOpen && (
+        <TaskModal
+          task={editingTask}
+          onClose={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

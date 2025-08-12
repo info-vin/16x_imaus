@@ -4,7 +4,7 @@ import i18n from './i18n';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
-import FlowPage from './pages/FlowPage';
+import FlowPage from './pages/FlowPage_v.0.2.2';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';

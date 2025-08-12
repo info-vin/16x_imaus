@@ -5,7 +5,7 @@ import type { Task } from '../types';
 import Header from '../components/Header';
 import FilterControls from '../components/FilterControls';
 import TaskCard from '../components/TaskCard';
-import TaskModal from '../components/TaskModal';
+import TaskModal from '../components/TaskModal_v0.2.2';
 import { PlusIcon } from '../components/icons/PlusIcon';
 
 function MainPage() {
