@@ -84,6 +84,30 @@ This project is equipped with tools to ensure code quality and test coverage.
    - Results: ✅ Navigation works in both directions
    - Verified: Links correctly point to `/docs/pages/ai/home.html` and `/index.html`
 
+## 4.3 Internationalization (i18n) Troubleshooting and Resolution
+
+**Problem:**
+Initially, the application's internationalization (i18n) system appeared to be broken. Language switching did not work on most pages (always displaying English), and the Hot Module Replacement (HMR) for UI changes (like adding the "DEMO" link to the header) was also inconsistent. Only the `/flow.html` page seemed to translate correctly.
+
+**Diagnosis and Root Cause:**
+Through systematic debugging, two primary issues were identified:
+1.  **Syntax Error in Fallback Language File:** The `public/locales/en-US.json` file contained a subtle syntax error (an improperly escaped quote in the `deleteConfirmation` key's value). This caused the `i18next-http-backend` to fail loading the default language pack, leading to the system falling back to displaying keys or hardcoded English strings. This critical error also likely interfered with Vite's HMR.
+2.  **Incomplete i18n Implementation in Header Components:** The `src/components/PublicHeader.tsx` (used on the homepage) and `src/components/Header.tsx` (used on internal pages like `/about.html` and `/flow.html`) components had hardcoded text strings ("ProjectFlow", "Home", "About", "DEMO") that were not utilizing the `useTranslation()` hook. This meant even if the language packs loaded, these specific texts would not update. The `/flow.html` page appeared to translate correctly because its child components (e.g., `FilterControls.tsx`) were correctly implemented with i18n.
+
+**Resolution:**
+The following changes were implemented to resolve the i18n issues:
+1.  **`en-US.json` Fix:** Corrected the syntax error in `public/locales/en-US.json` by properly escaping the quote in the `deleteConfirmation` value.
+2.  **`PublicHeader.tsx` Internationalization:**
+    *   Ensured `useTranslation` hook was imported and called.
+    *   Replaced hardcoded strings ("ProjectFlow", "Home", "About") with `t()` calls using new keys (`header.title`, `header.nav.home`, `header.nav.about`).
+3.  **`Header.tsx` Internationalization:**
+    *   Imported and called the `useTranslation` hook.
+    *   Replaced hardcoded strings ("ProjectFlow", "Home", "About", "DEMO") with `t()` calls using existing and new keys (`header.title`, `header.nav.home`, `header.nav.about`, `header.nav.demo`).
+4.  **Language Pack Updates:** Added all new translation keys (`header.title`, `header.nav.home`, `header.nav.about`, `header.nav.demo`) to `en-US.json`, `zh-TW.json`, `ja-JP.json`, `ko-KR.json`, and `vi-VN.json` with appropriate translations.
+
+**Verification:**
+After these changes, restarting the development server (`npm run dev`) and performing a hard refresh (`Ctrl+F5` or `Cmd+Shift+R`) should resolve all i18n issues. Language switching should now function correctly across all pages, and all header texts should be translatable.
+
 ## 5. How to Use the Application
 
 Once the application is running in your browser:
