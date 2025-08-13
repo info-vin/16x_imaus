@@ -6,6 +6,7 @@ import FlowPage from './pages/FlowPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import DemoPage from './pages/DemoPage';
 import AiPage from './features/ai/routes/AiPage';
 import AusPage from './features/aus/routes/AusPage';
 import CookieConsent from 'react-cookie-consent';
@@ -30,6 +31,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="/demo" element={<DemoPage />} />
 
         {/* Protected Routes */}
         <Route element={
