@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import FlowPage from './pages/FlowPage';
@@ -14,6 +14,9 @@ import MainLayout from './components/MainLayout';
 
 function App() {
   const init = useAppStore((state) => state.init);
+  // --- 登入狀態 (未來啟用) ---
+  // const isLoggedIn = useAppStore((state) => state.isLoggedIn);
+  // ------------------------------------
 
   useEffect(() => {
     init();
@@ -22,14 +25,18 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Routes without MainLayout */}
+        {/* Public Routes */}
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
 
-        {/* Routes with MainLayout */}
-        <Route element={<MainLayout />}>
+        {/* Protected Routes */}
+        <Route element={
+          // --- 路由守衛邏輯 (未來啟用) ---
+          // isLoggedIn ? <MainLayout /> : <Navigate to="/login" replace />
+          <MainLayout /> // Currently, always show MainLayout
+        }>
           <Route path="/flow.html" element={<FlowPage />} />
           <Route path="/about.html" element={<AboutPage />} />
           <Route path="/ai" element={<AiPage />} />
