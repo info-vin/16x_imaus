@@ -15,7 +15,8 @@ const PublicHeader: React.FC = () => {
         </Link>
         <nav className="hidden md:flex items-center space-x-4">
           <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">{t('header.nav.home')}</Link>
-          <Link to="/about.html" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">{t('header.nav.about')}</Link>
+          <Link to="/about.html" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">{t('header.nav.about')}</Link>          
+          <Link to="/demo" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">{t('header.nav.demo', 'Demo')}</Link>
         </nav>
       </div>
       <div className="flex items-center space-x-4">
