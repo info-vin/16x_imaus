@@ -404,3 +404,20 @@ This document outlines the development process for the ProjectFlow application, 
 - **Objective:** Design a dedicated admin panel for managing users and tasks.
 - **Action:** Outlined a detailed design for a new admin panel, including frontend components, backend API endpoints, and permission control mechanisms.
 - **Reason:** To provide a centralized management interface, improve data management efficiency and security, and lay the groundwork for future system expansion.
+
+### Day 33: SeminarCard Integration & About Page Refactor
+
+- **Objective:** Integrate the new `SeminarCard` component and refactor the `AboutPage` to display document content in a grid, with a new tab view for details.
+- **Action:**
+  1.  Defined `SeminarCardProps` interface in `src/types/index.ts`.
+  2.  Created `src/components/SeminarCard.tsx` based on the provided design, implementing responsive layout and conditional rendering.
+  3.  Refactored `src/pages/AboutPage.tsx`:
+      -   Removed `Swiper` carousel and related dependencies.
+      -   Implemented a CSS Grid layout to display `SeminarCard` components.
+      -   Modified document parsing to extract basic title and description from `.docx` files and store the full HTML content.
+      -   Updated the `handleDetailsClick` function to open the converted HTML content in a new browser tab, rather than attempting to open the original `.docx` file (which often leads to downloads).
+- **Testing:**
+  -   **Test Case 1: SeminarCard Rendering:** Verified `SeminarCard` components render correctly on the `AboutPage`.
+  -   **Test Case 2: Responsive Layout:** Confirmed the grid layout adapts correctly to different screen sizes (1, 2, and 3 columns).
+  -   **Test Case 3: Details Button Functionality:** Ensured clicking the "詳情按鈕" (Details Button) opens a new browser tab displaying the converted HTML content of the `.docx` file, without downloading the file.
+  -   **Test Case 4: Data Handling:** Checked that missing data fields are handled gracefully (e.g., displaying "Null" or hiding elements).

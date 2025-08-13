@@ -268,16 +268,20 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 │   └── locales/      # 國際化 (i18next) 翻譯檔
 ├── src/                # 應用程式原始碼
 │   ├── components/     # React 元件 (UI 組件)
+│   │   ├── SeminarCard.tsx # 新增: 研討會/案例卡片組件
 │   │   ├── icons/      # SVG 圖示元件
 │   │   └── ...
 │   ├── i18n/           # 國際化 (i18next) 設定
 │   │   └── index.ts    # i18next 初始化設定
+│   ├── pages/          # 應用程式頁面
+│   │   └── AboutPage.tsx # 已重構: 顯示 SeminarCard 網格
+│   │   └── ...
 │   ├── stores/         # 狀態管理 (Zustand)
 │   │   └── appStore.ts # 全域狀態儲存
 │   ├── styles/         # 全域樣式與 CSS 變數
 │   │   └── index.css
 │   ├── types/          # TypeScript 型別定義
-│   │   └── index.ts
+│   │   └── index.ts    # 已更新: 包含 SeminarCardProps
 │   ├── utils/          # 共用工具函式
 │   │   └── storage.ts  # LocalStorage 抽象層
 │   ├── App.tsx         # 應用程式主元件
@@ -294,7 +298,7 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
 
 ### 核心概念與開發提示 (Core Concepts & Tips)
 
--   **狀態管理 (`/src/stores/appStore.ts`)**: 
+-   **狀態管理 (`/src/stores/appStore.ts`)**:
     -   本專案使用 `Zustand` 進行全域狀態管理，它以輕量、易用著稱。
     -   `appStore` 集中管理了所有核心資料，如 `tasks`, `currentUser`, `filters` 等。
     -   所有對資料的操作 (新增、修改、刪除任務) 都應透過 store 中的 actions 進行，以確保資料流的單向與可預測性。
@@ -308,6 +312,11 @@ ProjectFlow 是一個使用現代網頁技術建置的輕量級任務管理應�
     -   若有需要區分開發與生產環境的變數 (例如 API 金鑰)，可以建立 `.env.local` 檔案。
     -   Vite 會自動載入這些變數。變數必須以 `VITE_` 開頭，例如 `VITE_API_URL=http://localhost:3000`。
     -   這些變數可以透過 `import.meta.env.VITE_API_URL` 在程式碼中存取。
+
+-   **文件內容顯示 (`/src/pages/AboutPage.tsx` 與 `/src/components/SeminarCard.tsx`)**:
+    -   `AboutPage.tsx` 已重構，不再使用 Swiper 輪播圖，而是採用網格佈局來展示文件內容。
+    -   它利用 `mammoth` 將 `.docx` 文件轉換為 HTML，並將這些內容傳遞給 `SeminarCard` 組件。
+    -   `SeminarCard.tsx` 負責以標準化的卡片形式呈現這些文件內容，並提供「詳情按鈕」在新分頁中顯示完整的 HTML 內容。
 
 ## 日常開發流程 (Daily Development Workflow)
 
