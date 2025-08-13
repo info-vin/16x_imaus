@@ -1,1 +1,6 @@
-{}
+{
+  "header.title": "ProjectFlow",
+  "header.nav.home": "홈",
+  "header.nav.about": "정보",
+  "header.nav.demo": "데모"
+}

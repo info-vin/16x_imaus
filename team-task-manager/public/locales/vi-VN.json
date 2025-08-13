@@ -1,1 +1,6 @@
-{}
+{
+  "header.title": "ProjectFlow",
+  "header.nav.home": "Trang chủ",
+  "header.nav.about": "Về chúng tôi",
+  "header.nav.demo": "Bản demo"
+}

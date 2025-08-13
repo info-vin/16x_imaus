@@ -11,11 +11,11 @@ const PublicHeader: React.FC = () => {
       <div className="flex items-center space-x-4">
         <Link to="/" className="flex items-center space-x-2">
           <img src="/logo.svg" alt="ProjectFlow Logo" className="h-8 w-8" />
-          <span className="text-xl font-bold text-gray-800 dark:text-white">ProjectFlow</span>
+          <span className="text-xl font-bold text-gray-800 dark:text-white">{t('header.title')}</span>
         </Link>
         <nav className="hidden md:flex items-center space-x-4">
-          <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">Home</Link>
-          <Link to="/about.html" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">About</Link>
+          <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">{t('header.nav.home')}</Link>
+          <Link to="/about.html" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">{t('header.nav.about')}</Link>
         </nav>
       </div>
       <div className="flex items-center space-x-4">

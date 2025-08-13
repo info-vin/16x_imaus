@@ -40,5 +40,9 @@
   "priority.low": "低",
   "priority.medium": "中",
   "priority.high": "高",
-  "home.dashboardTitle": "智慧製造與人力資源整合儀表板 v1.3"
+  "home.dashboardTitle": "智慧製造與人力資源整合儀表板 v1.3",
+  "header.title": "ProjectFlow",
+  "header.nav.home": "首頁",
+  "header.nav.about": "關於",
+  "header.nav.demo": "演示"
 }

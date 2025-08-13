@@ -22,7 +22,7 @@
   "saveChanges": "Save Changes",
   "createTask": "Create Task",
   "errorRequiredFields": "Title and Assignee are required.",
-  "deleteConfirmation": "Are you sure you want to delete the task \"{{title}}\"",
+    "deleteConfirmation": "Are you sure you want to delete the task \"{{title}}\" ?",
   "selectUser": "Select User",
   "switchUser": "Switch User",
   "selectUserToAddTask": "Please select a user to add a task.",
@@ -40,5 +40,9 @@
   "priority.low": "Low",
   "priority.medium": "Medium",
   "priority.high": "High",
-  "home.dashboardTitle": "Intelligent Manufacturing and Human Resources Integration Dashboard v1.3"
+  "home.dashboardTitle": "Intelligent Manufacturing and Human Resources Integration Dashboard v1.3",
+  "header.title": "ProjectFlow",
+  "header.nav.home": "Home",
+  "header.nav.about": "About",
+  "header.nav.demo": "DEMO"
 }
