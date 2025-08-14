@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Application Service (Vite)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: team-task-manager-app
+    image: team-task-manager-dev
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=development
+    volumes:
+      # Mount the source code for live-reloading
+      - .:/app
+      # Use the node_modules from the container, not the host
+      - /app/node_modules
+    networks:
+      - app-network
+
+  # Nginx Reverse Proxy Service
+  nginx:
+    image: nginx:stable-alpine
+    container_name: team-task-manager-nginx
+    restart: unless-stopped
+    ports:
+      # Map host port 8080 to container port 80
+      - "8080:80"
+    volumes:
+      # Mount the custom nginx configuration
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
