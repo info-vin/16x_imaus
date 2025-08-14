@@ -1,0 +1,19 @@
+design-docs:
+  planning:
+    DEVELOPMENT_PLAN.md:
+      description: "ProjectFlow 開發計畫與實作日誌，涵蓋基礎與核心任務管理、進階功能與部署準備、以及開發後的功能優化紀錄。包括多語系、使用者系統、任務指派、UI/UX 改進、國際化優化、後端整合與前端重構等完整歷程。"
+      status: "in-progress"
+      last_updated: "2025-08-13"
+      owner: "vincent"
+    ROADMAP.md:
+      description: "未來規劃"
+      status: "planned"
+    MILESTONES.md:
+      description: "里程碑追蹤"
+      status: "ongoing"
+  implementation:
+    ARCHITECTURE.md:
+      description: "ProjectFlow 系統架構與技術設計，包括前端 React/Vite/Zustand、後端 Node.js/Express/PostgreSQL、國際化設計、Docker 資料庫環境、檔案管理 API、開發測試流程，以及 CI/CD 結構規劃。"
+      last_updated: "2025-08-01"
+    TECHNICAL_DECISIONS.md:
+      description: "技術決策紀錄：框架與工具選擇、狀態管理策略、國際化設計、建置工具、測試架構、後端與資料庫方案、專案結構優化、UI/UX 改進、資料儲存策略與靜態內容整合。"
