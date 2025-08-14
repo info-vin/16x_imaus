@@ -4,16 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write '**/*.{ts,tsx,md,json}'",
     "test": "vitest",
-    "clean": "npx rimraf node_modules package-lock.json",
-    "fresh-install": "npm run clean && npm cache clean --force && npm install",
-    "dev": "npm run fresh-install && vite --host",
-    "safe-dev": "npm run fresh-install && npm run dev"
-  },
+    "safe-dev": "npm run fresh-install && npm run dev",
+    "clean:check": "node -p \"process.platform === 'linux' ? 'linux' : 'other'\"",
+    "clean:linux": "rm -rf node_modules package-lock.json",
+    "clean:other": "npx rimraf node_modules package-lock.json", 
+    "clean": "npm run clean:check | grep -q linux && npm run clean:linux || npm run clean:other",
+    "fresh-install": "npm run clean && npm cache clean --force && npm install"
+    },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/sortable": "^10.0.0",
