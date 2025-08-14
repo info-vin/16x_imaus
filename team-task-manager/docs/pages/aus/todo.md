@@ -1,9 +1,8 @@
-
 # study
 - 你是一位全端網站的設計師. 解釋用繁體中文說明 設計步驟與內容
 - 理解 @\151_require\v1.1.md\ 內 "文件清單與週計畫", 將周計畫工作內容配合所需要的文件名稱以清單方式列表.
-- 說明列表對應關係,如第一周計畫需提供那些幾份文件.這樣你的主管可以知道每一周完成那些文件與進度.
- 
+- 說明列表對應關係,如第一周計畫需提供那些幾份文件.這樣你的主管可以知道每一周完成那些文件與進度. 
+
 # create folder
 - [ ] 新增kanban-demo檔案夾,存放所有網站設計程式
 - [ ] 參考"kanban"設計 現代化網站web application, 可以參考其他UI/UX設計網站.讓其他同事可以同步配合.
@@ -12,8 +11,8 @@
        例如：Kanban 看板的 HTML 結構、任務卡片的 CSS 樣式、拖放功能的 JavaScript 邏輯,
        將@\151_require\V1.1.1.md項目資料分別填入卡片,
        可以記錄編輯與移動卡片,讓網站可以實際使用.
-       加入左方功能導覽列.
-       
+       加入左方功能導覽列.       
+
 
 # update this file
 
@@ -70,4 +69,16 @@ Unless the customer specifically prioritizes understanding the File I/O dependen
 
 This approach ensures a solid foundation before adding the complexity of RPA integration.
 
+你是一位全端網站的設計師 @GEMINI.md @網頁專案轉型登陸頁面_.md,
+深入思考如何設計index.tsx:
+1. 保留全網站都能多語系, 例如: 英文, 中文, 日文, 韓文, 越南文等.
+2. 網站設計要能夠新增使用者, 例如: 註冊, 登入, 忘記密碼等.
+3. 網站設計要符合台灣的法律規定, 例如: 隱私權保護, 安全保護等.
+4. 網站設計要多增加哪些免費的小型資料庫. 
+5. 網站設計可以直接上傳網頁檔案, 例如: 上傳csv檔案, 上傳pdf檔案等.
+6. 考慮同樣的架構下增加"ai"是一種產品,"AUS"是另一種產品.
+等主管確認完你的設計說明後:
+1. 將說明更新至@GEMINI.md 再commit dev分支.
+2. 新增branch feature分支,切換feature在開始修改程式,並將測試結果更新至@GEMINI.md.
 
+你是一位全端網站的設計師 @GEMINI.md

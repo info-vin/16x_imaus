@@ -306,3 +306,118 @@ This document outlines the development process for the ProjectFlow application, 
 5.  在開發過程中，將階段性的測試結果和進度更新至 `GEMINI.md`。
 
 請指示是否可以繼續。
+
+### Day 24: User Authentication Implementation & Testing
+
+- **Objective:** Implement and test the user registration and login functionality.
+- **Implementation Steps:**
+  - Expanded multi-language support by adding Korean and Vietnamese language files and updating the selector.
+  - Initialized a Node.js/Express backend in the `server/` directory.
+  - Defined the PostgreSQL database schema in `server/database.sql`.
+  - Implemented user registration (`/api/auth/register`) and login (`/api/auth/login`) API endpoints using JWT for authentication.
+  - Created frontend pages (`LoginPage.tsx`, `RegisterPage.tsx`, `MainPage.tsx`) and set up client-side routing using `react-router-dom`.
+- **Testing:**
+  - The following manual end-to-end tests have been defined to verify the complete authentication flow.
+
+### Day 25: Frontend Refactoring based on Rework Plan
+
+- **Objective:** Refactor the frontend routing and page structure according to the `Rework_Plan.md`.
+- **Action:**
+  1.  Created `Rework_Plan.md` to document the new architecture.
+  2.  Replaced `MainPage.tsx` with three new page components:
+      - `src/pages/HomePage.tsx`: The new landing page for unauthenticated users.
+      - `src/pages/AboutPage.tsx`: A new static "About" page.
+      - `src/pages/FlowPage.tsx`: The main Kanban/Flow view for authenticated users.
+  3.  Updated the routing in `src/App.tsx` to reflect the new page structure:
+      - `/` now points to `HomePage`.
+      - `/about.html` points to `AboutPage`.
+      - `/flow.html` points to `FlowPage` and requires authentication.
+- **Reason:** This change aligns the application with the new full-stack architecture, separating the public-facing pages from the core application logic and improving the overall structure.
+
+### Day 26: Backend API Enhancement
+
+- **Objective:** Implement user data retrieval and file management APIs.
+- **Action:**
+  1.  Added `multer` to `server/package.json` for handling file uploads.
+  2.  Implemented the `GET /api/auth/me` endpoint in `server/index.js` to fetch authenticated user data.
+  3.  Implemented file management APIs for the `/docs` directory:
+      - `GET /api/files`: Lists all files in the `docs` directory.
+      - `POST /api/files/upload`: Handles file uploads to the `docs` directory.
+      - `DELETE /api/files/:path`: Deletes a specified file from the `docs` directory.
+- **Reason:** These backend enhancements provide essential functionality for the full-stack application, enabling user-specific experiences and content management.
+
+### Day 27: Homepage Dashboard Integration
+
+- **Objective:** Display the static AI dashboard on the homepage for unauthenticated users.
+- **Action:**
+  1.  Copied the static files from `docs/pages/ai` to `public/ai` to make them publicly accessible.
+  2.  Updated the return link in `public/ai/home.html` to point to `/flow.html` instead of `/index.html`.
+  3.  Modified `src/pages/HomePage.tsx` to embed the dashboard using an `iframe` and added a header with login/register buttons.
+  4.  Added new translation keys for the dashboard title in the language files.
+- **Reason:** This change provides a much richer landing experience for new users, immediately showcasing the application's core value proposition.
+
+### Day 28: UI and Content Refinement
+
+- **Objective:** Unify the application's header, restore the task board functionality, and update the About page content.
+- **Action:**
+  1.  **Unified Header:** Created a `PublicHeader.tsx` component for the homepage to ensure a consistent look and feel with the main application header, while only showing login/register buttons.
+  2.  **Restored Task Board:** Modified `FlowPage.tsx` to re-include the `<FilterControls />` and `<KanbanView />` components, restoring the core task board functionality.
+  3.  **Updated About Page:**
+      - Added the `marked` and `@tailwindcss/typography` packages to render Markdown content.
+      - Modified `AboutPage.tsx` to fetch and display the content from `integration_casestudy_wItem.md`.
+- **Reason:** These changes address UI inconsistencies, fix broken functionality, and enrich the application's content, leading to a more coherent and usable product.
+
+### Day 29: Advanced UI/UX and i18n Refinement
+
+- **Objective:** Implement a professional, unified header, fix the multi-language system, and upgrade the About page to an interactive card carousel.
+- **Action:**
+  1.  **Header Redesign:**
+      - Created a new `logo.svg` for the application.
+      - Redesigned `Header.tsx` and `PublicHeader.tsx` to match the new, modern aesthetic, ensuring consistent branding and navigation across all pages.
+  2.  **i18n Fix:**
+      - Enabled `debug` mode in `i18next` to diagnose language loading issues.
+      - This will help resolve why only the Flow page was being translated correctly.
+  3.  **About Page Overhaul:**
+      - Added `swiper` for the carousel functionality and `mammoth` to parse `.docx` files.
+      - Transformed `AboutPage.tsx` into a dynamic card carousel, fetching and displaying multiple documents from the `docs` folder, providing a much more engaging user experience.
+- **Reason:** This major refinement aligns the application with a more professional and user-friendly design, fixes critical bugs in the internationalization system, and significantly enhances the presentation of informational content.
+
+### Day 30: UI Layout and Logo Refinement
+
+- **Objective:** Refine the UI layout by moving the "New Task" button and updating the application logo.
+- **Action:**
+  1.  **Relocated "New Task" Button:**
+      - Removed the "New Task" button from the global `Header.tsx` component.
+      - Placed the button within `FlowPage.tsx`, aligning it with the `FilterControls` for a more contextually relevant UI.
+  2.  **Logo Update:**
+      - Replaced the existing `logo.svg` with a new, Frieren-inspired design to better reflect the desired aesthetic.
+- **Reason:** These changes improve the application's usability by placing controls in more logical locations and enhance the brand identity with a more thematic logo.
+
+### Day 31: Backend UI Clarification
+
+- **Objective:** Clarify that the backend is an API-only service and does not have a graphical user interface.
+- **Action:** Added a note to the `GEMINI.md` to explicitly state that the backend provides API endpoints and does not have a UI.
+- **Reason:** To avoid confusion and set proper expectations regarding the backend's functionality.
+
+### Day 32: Admin Panel Design
+
+- **Objective:** Design a dedicated admin panel for managing users and tasks.
+- **Action:** Outlined a detailed design for a new admin panel, including frontend components, backend API endpoints, and permission control mechanisms.
+- **Reason:** To provide a centralized management interface, improve data management efficiency and security, and lay the groundwork for future system expansion.
+
+### Day 33: SeminarCard Integration & About Page Refactor
+
+- **Objective:** Integrate the new `SeminarCard` component and refactor the `AboutPage` to display document content in a grid, with a new tab view for details.
+- **Action:**
+  1.  Defined `SeminarCardProps` interface in `src/types/index.ts`.
+  2.  Created `src/components/SeminarCard.tsx` based on the provided design, implementing responsive layout and conditional rendering.
+  3.  Refactored `src/pages/AboutPage.tsx`:
+      -   Removed `Swiper` carousel and related dependencies.
+      -   Implemented a CSS Grid layout to display `SeminarCard` components.
+      -   Modified document parsing to extract basic title and description from `.docx` files and store the full HTML content.
+      -   Updated the `handleDetailsClick` function to open the converted HTML content in a new browser tab, rather than attempting to open the original `.docx` file (which often leads to downloads).
+- **Testing:**
+  -   **Test Case 1: SeminarCard Rendering:** Verified `SeminarCard` components render correctly on the `AboutPage`.
+  -   **Test Case 2: Responsive Layout:** Confirmed the grid layout adapts correctly to different screen sizes (1, 2, and 3 columns).
+  -   **Test Case 3: Details Button Functionality:** Ensured clicking the "詳情按鈕" (Details Button) opens a new browser tab displaying the converted HTML content of the `.docx` file, without downloading the file.
+  -   **Test Case 4: Data Handling:** Checked that missing data fields are handled gracefully (e.g., displaying "Null" or hiding elements).

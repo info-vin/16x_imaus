@@ -10,17 +10,29 @@ export enum Priority {
   High = 'high',
 }
 
-export interface Task {
-  id: string;
+export interface FilterState {
+  search: string;
+  status: 'All' | 'To Do' | 'In Progress' | 'Done';
+  priority: 'All' | 'Low' | 'Medium' | 'High';
+  myTasks: boolean;
+}
+
+export interface SeminarCardProps {
+  category: string;
   title: string;
+  imageUrl?: string;
+  startDate?: string;
+  format?: string;
+  organizer?: string;
   description?: string;
-  status: Status;
-  priority: Priority;
-  assigneeId: number;
-  dueDate?: string; // Storing as ISO string for simplicity
-  createdAt: string; // ISO string
-  updatedAt: string; // ISO string
-  createdBy: number;
+  systemTag?: string;
+  speaker?: {
+    avatar?: string;
+    name: string;
+    title?: string;
+  };
+  onDetailsClick: (htmlContent: string) => void;
+  htmlContent: string;
 }
 
 export interface User {

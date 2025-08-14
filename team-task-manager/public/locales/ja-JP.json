@@ -39,5 +39,9 @@
   "status.completed": "完了",
   "priority.low": "低",
   "priority.medium": "中",
-  "priority.high": "高"
+  "priority.high": "高",
+  "header.title": "ProjectFlow",
+  "header.nav.home": "ホーム",
+  "header.nav.about": "概要",
+  "header.nav.demo": "デモ"
 }

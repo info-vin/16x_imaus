@@ -9,6 +9,13 @@ export default defineConfig(({ mode }) => {
       'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
+    server: {
+      host: true, // Listen on all public IPs
+      port: 5173, // Default vite port
+      hmr: {
+        clientPort: 8080, // This is the port the browser will connect to for HMR
+      },
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
