@@ -1,0 +1,2 @@
+# Ignore node dependency lock files at the root level
+package-lock.json
