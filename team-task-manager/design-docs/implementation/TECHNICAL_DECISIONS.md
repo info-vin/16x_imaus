@@ -1,19 +1,40 @@
-- **前端框架**: 選擇 `React 19` 是因為它的元件化架構和廣泛應用。
+<!-- 技術決策紀錄：框架與工具選擇、狀態管理策略、國際化設計、建置工具、測試架構、後端與資料庫方案、專案結構優化、UI/UX 改進、資料儲存策略與靜態內容整合。 -->
 
-- **狀態管理**: 選擇 `Zustand` 是因為其輕量和簡單的特性，避免了其他狀態管理函式庫的繁瑣樣板程式碼。`persist` 中介層簡化了資料到 `localStorage` 的持久化過程。
+# Technical Decisions Log
 
-- **國際化88**: 選擇 `i18next` 來實作多語言系統。決定將其與 `react-i18next` 結合使用，並將翻譯檔案放置在 `public/locales/` 中，以確保正確載入和動態語言切換。最初的語言切換問題被診斷為後備語言檔案中的語法錯誤和標頭元件中硬編碼的文字字串，透過修正檔案並使用 `useTranslation()` 鉤子解決。
+This document records the key technical decisions made throughout the ProjectFlow development lifecycle.
 
-- **建置工具**: 選擇 `Vite` 是因為其速度和高效的熱模組更換 `(HMR)` 功能，顯著提升了開發體驗。
+## 1. State Management
 
-- **測試**: 選擇 `Vitest` 作為測試框架，並配置 `jsdom` 以提供類似瀏覽器的環境來執行單元和元件測試。
+- **Decision:** Adopt **Zustand** as the primary state management library.
+- **Rationale:** Chosen for its simplicity, minimal boilerplate, and hook-based API which integrates seamlessly with React. It avoids the complexity of Redux while providing centralized, predictable state management.
 
-- **後端與資料庫**: 為全端升級選擇了 `Node.js/Express` 後端與 `PostgreSQL` 資料庫。`PostgreSQL` 提供了一個健壯、開源的關聯式資料庫解決方案，而 `Node.js` 則與 `JavaScript/TypeScrip`t 專案完美契合。`bcrypt` 因其安全性和業界標準地位而被選為密碼加密工具。
+## 2. Internationalization (i18n)
 
-- **專案結構**: 專案重組，將 `docs/pages/aus` 中的歷史文件移至 `archive/aus`，以保持一個乾淨的目錄結構來存放運行時檔案。
+- **Decision:** Use **i18next** and **react-i18next** for handling multi-language support.
+- **Rationale:** i18next is a mature, full-featured i18n framework. Its plugin-based architecture (e.g., `i18next-http-backend` for loading translations, `i18next-browser-languagedetector` for auto-detection) provides a robust and scalable solution.
 
-- **UI/UX**: 將「新增任務」按鈕從全域標頭移至 `FlowPage`，以提供更具情境的使用者介面。重構 `AboutPage` 以使用新的 `SeminarCard` 元件和網格佈局，取代輪播，以改善文件呈現。創建了新的 `PublicHeader.tsx`，以確保不同頁面之間外觀和感覺的一致性。
+## 3. Development Environment & Build Tool
 
-- **資料處理**: 決定放棄使用 `localStorage` 儲存任務資料，並遷移到後端 `PostgreSQL` 資料庫，以支援多使用者、全端的應用程式。
+- **Decision:** Utilize **Vite** as the frontend build tool and development server.
+- **Rationale:** Vite offers near-instant server start and Hot Module Replacement (HMR), significantly speeding up the development feedback loop compared to older tools like Webpack.
 
-- **靜態內容**: 靜態內容，例如 `home.html` 儀表板，被複製到 `public/` 目錄，並透過 `iframe` 嵌入到 `HomePage.tsx` 中，為未經身份驗證的使用者提供豐富的著陸體驗，而無需完全重寫。
+## 4. End-to-End (E2E) Testing
+
+- **Decision:** Implement **Playwright** for end-to-end testing.
+- **Rationale:** Chosen for its cross-browser capabilities, robust auto-waits, and excellent tooling (like Codegen and Trace Viewer). It allows for reliable testing of user authentication and other critical user flows.
+
+## 5. Containerization
+
+- **Decision:** Use **Docker** and **Docker Compose** to containerize the entire application stack (frontend, backend, database).
+- **Rationale:** This ensures a consistent, isolated, and reproducible development environment for all team members, regardless of their host operating system. It simplifies setup and eliminates "it works on my machine" issues.
+
+## 6. Data Storage Strategy
+
+- **Decision:** Evolve from a `localStorage`-based prototype to a full-stack architecture with **PostgreSQL** as the primary database.
+- **Rationale:** `localStorage` was sufficient for the initial client-side demo (`LegacyDemo`), but a persistent, relational database like PostgreSQL is required for a scalable, multi-user application with data integrity and relationships.
+
+## 7. Code Quality & Formatting
+
+- **Decision:** Enforce code quality with **ESLint** and consistent formatting with **Prettier**.
+- **Rationale:** Automating code quality and style checks reduces cognitive load, prevents trivial errors, and ensures a consistent and readable codebase, which is critical for team collaboration.
