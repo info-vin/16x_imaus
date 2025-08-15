@@ -1,27 +1,3 @@
-# Git
-.git
-.gitignore
-
-# Dependencies
 node_modules
-
-# Build output
+.git
 dist
-build
-
-# IDE / Editor specific
-.vscode/
-.idea/
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Test results
-coverage/
