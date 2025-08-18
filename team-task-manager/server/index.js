@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const pool = require('./db');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt'); // Bcrypt is no longer needed for passwordless login
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
 const fs = require('fs');
@@ -13,6 +13,18 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 app.use('/docs', express.static(path.join(__dirname, '..', 'docs')));
+
+// Helper function for logging events
+const logEvent = async (source, eventType, payload) => {
+  try {
+    await pool.query(
+      'INSERT INTO event_logs (source, event_type, payload) VALUES ($1, $2, $3)',
+      [source, eventType, JSON.stringify(payload)]
+    );
+  } catch (err) {
+    console.error('Failed to log event:', err.message);
+  }
+};
 
 // Middleware to verify token
 const auth = (req, res, next) => {
@@ -33,20 +45,24 @@ const auth = (req, res, next) => {
 
 // ROUTES
 
-// Register a new user
+// Register a new user (passwordless)
 app.post('/api/auth/register', async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email } = req.body; // Password is no longer required
 
-    const salt = await bcrypt.genSalt(10);
-    const bcryptPassword = await bcrypt.hash(password, salt);
+    // Password hashing is removed
+    // const salt = await bcrypt.genSalt(10);
+    // const bcryptPassword = await bcrypt.hash(password, salt);
 
     const newUser = await pool.query(
-      'INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *',
-      [name, email, bcryptPassword]
+      'INSERT INTO users (user_name, user_email) VALUES ($1, $2) RETURNING *',
+      [name, email]
     );
 
     const token = jwt.sign({ id: newUser.rows[0].user_id }, 'your_jwt_secret', { expiresIn: '1h' });
+
+    // Log the registration event
+    await logEvent('ProjectFlow', 'USER_REGISTERED', { userId: newUser.rows[0].user_id, email });
 
     res.json({ token });
 
@@ -56,10 +72,10 @@ app.post('/api/auth/register', async (req, res) => {
   }
 });
 
-// Login a user
+// Login a user (passwordless)
 app.post('/api/auth/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email } = req.body; // Password is no longer required
 
     const user = await pool.query('SELECT * FROM users WHERE user_email = $1', [email]);
 
@@ -67,13 +83,16 @@ app.post('/api/auth/login', async (req, res) => {
       return res.status(401).json('Invalid Credential');
     }
 
-    const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
-
-    if (!validPassword) {
-      return res.status(401).json('Invalid Credential');
-    }
+    // Password validation is removed
+    // const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
+    // if (!validPassword) {
+    //   return res.status(401).json('Invalid Credential');
+    // }
 
     const token = jwt.sign({ id: user.rows[0].user_id }, 'your_jwt_secret', { expiresIn: '1h' });
+
+    // Log the login event
+    await logEvent('ProjectFlow', 'USER_LOGGED_IN', { userId: user.rows[0].user_id, email });
 
     res.json({ token });
 

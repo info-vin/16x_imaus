@@ -196,7 +196,7 @@ UML (Unified Modeling Language) 是一種標準化的圖形化建模語言，用
     當您運行 `npm run dev:docker` 時，PostgreSQL 資料庫會自動啟動。
     *   **資料庫連接:**
         *   **主機:** `localhost` (從主機連接) 或 `db` (從 Docker 容器內部連接)。
-        *   **埠號:** `5432`。
+        *   **埠號:** `5434` (從您的電腦直接連接時使用), `5432` (在 Docker 內部網路，例如後端服務連接時使用)。
         *   **使用者:** `user`。
         *   **密碼:** `password`。
         *   **資料庫名稱:** `projectflow_db`。
@@ -274,3 +274,76 @@ UML (Unified Modeling Language) 是一種標準化的圖形化建模語言，用
 *   **npm 依賴問題:**
     *   嘗試 `npm cache clean --force` 後再 `npm install`。
     *   如果遇到 `package-lock.json` 衝突，請手動解決或刪除後重新 `npm install`。
+
+--- 
+
+#### **9. 後端 API 測試指南 (v2.1)**
+
+本指南旨在說明如何測試基於 `v2.1` 架構文件實作的後端新功能，特別是**無密碼認證**和**事件日誌**。
+
+*   **前提條件:**
+    *   您的 Docker 環境正在運行 (`npm run dev:docker`)。
+    *   後端伺服器可在 `http://localhost:3000` 訪問。
+    *   您已使用新的 `database.sql` 重建了資料庫。
+
+##### **步驟 1: 測試使用者註冊 (無密碼)**
+
+打開一個新的終端機，使用 `curl` 發送 POST 請求來註冊一個新使用者。
+
+```bash
+curl -X POST http://localhost:3000/api/auth/register \
+-H "Content-Type: application/json" \
+-d '{"name": "testuser", "email": "test@example.com"}'
+```
+
+*   **預期結果:**
+    您應該會收到一個包含 JWT token 的 JSON 回應，類似這樣：
+    ```json
+    {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."}
+    ```
+
+##### **步驟 2: 測試使用者登入 (無密碼)**
+
+使用剛剛註冊的 email 進行登入。
+
+```bash
+curl -X POST http://localhost:3001/api/auth/login \
+-H "Content-Type: application/json" \
+-d '{"email": "test@example.com"}'
+```
+
+*   **預期結果:**
+    您應該應該會收到一個包含 JWT token 的 JSON 回應。
+
+##### **步驟 3: 驗證事件日誌**
+
+現在，我們需要檢查資料庫，確認註冊和登入事件是否已成功記錄。
+
+1.  **進入 Docker PostgreSQL 容器:**
+    首先，找到您的資料庫容器名稱：
+    ```bash
+    docker ps
+    ```
+    在列表中找到 `team-task-manager-db-1` 或類似的名稱。然後執行以下命令進入 `psql`：
+    ```bash
+    # 將 <your_db_container_name> 替換為您實際的容器名稱
+    docker exec -it <your_db_container_name> psql -U postgres -d task_manager_dev
+    ```
+
+2.  **查詢 `event_logs` 資料表:**
+    在 `psql` 提示符 (`projectflow_db=#`) 後，輸入以下查詢：
+    ```sql
+    SELECT source, event_type, payload->>'email' as email FROM event_logs;
+    ```
+
+*   **預期結果:**
+    您應該會看到一個包含兩筆記錄的表格，證明事件已成功寫入：
+    ```
+       source    |   event_type    |      email
+    -------------+-----------------+------------------
+     ProjectFlow | USER_REGISTERED | test@example.com
+     ProjectFlow | USER_LOGGED_IN  | test@example.com
+    (2 rows)
+    ```
+
+完成以上步驟，即可驗證後端 v2.1 的核心功能已正確實作。

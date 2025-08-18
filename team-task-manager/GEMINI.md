@@ -421,3 +421,23 @@ This document outlines the development process for the ProjectFlow application, 
   -   **Test Case 2: Responsive Layout:** Confirmed the grid layout adapts correctly to different screen sizes (1, 2, and 3 columns).
   -   **Test Case 3: Details Button Functionality:** Ensured clicking the "詳情按鈕" (Details Button) opens a new browser tab displaying the converted HTML content of the `.docx` file, without downloading the file.
   -   **Test Case 4: Data Handling:** Checked that missing data fields are handled gracefully (e.g., displaying "Null" or hiding elements).
+### Day 34: Backend v2.1 Implementation and Troubleshooting
+
+- **Objective:** Implement the backend architecture defined in `docs/pages/aus/156_resource/backend.md` and resolve subsequent deployment issues.
+- **Action:**
+  1.  **Database Schema Update:** Modified `server/database.sql` to align with the v2.1 architecture. This included adding `external_id` and `source_system` to the `tasks` table, making the `user_password` nullable for passwordless dev login, and creating the new `event_logs` table.
+  2.  **API Logic Update:** Refactored `server/index.js` to implement passwordless registration and login. Added event logging for these authentication events.
+  3.  **Database Connectivity Fix:** Corrected the database connection logic in `server/db.js` to use the `DATABASE_URL` environment variable instead of a hardcoded `localhost`, fixing a critical Docker networking issue.
+  4.  **Documentation & Troubleshooting:**
+      - Added a detailed "Backend API Testing Guide" to `backend.md` with `curl` and `psql` commands.
+      - Systematically troubleshooted and fixed multiple configuration and documentation errors, including Docker port conflicts (`5432`), incorrect backend port in docs (`3000` vs `3001`), and incorrect database user/name in the testing guide.
+- **Reason:** To translate the v2.1 architecture plan into a functional implementation and ensure the development environment is stable and well-documented.
+
+### Day 35: Architectural Analysis of Legacy vs. Backend Systems
+
+- **Objective:** Analyze and clarify the relationship between the legacy `localStorage`-based demo and the new backend-driven authentication system.
+- **Analysis:**
+  - Confirmed that the application currently contains two parallel, non-interacting data systems.
+  - **Legacy System:** The `DemoPage.tsx` and its associated components in `src/legacy/` operate entirely on the client-side, using `localStorage` for state persistence. This is a self-contained prototype.
+  - **New System:** The main user flow (Login, Register, etc.) uses a full-stack architecture, with user data and authentication managed by the PostgreSQL backend.
+- **Conclusion:** The two systems are separate. There is no automatic data migration from `localStorage` to the database. This identified a key architectural issue and clarified the next step: migrating the task management features to the backend and deprecating the legacy `localStorage` system to create a single, unified data flow.

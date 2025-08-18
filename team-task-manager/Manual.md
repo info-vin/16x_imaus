@@ -9,18 +9,19 @@ ProjectFlow is a streamlined task management application built with modern web t
 ## 2. Tech Stack
 
 - **Containerization:** Docker, Docker Compose
-- **Web Server:** Nginx
-- **Framework:** React 19
+- **Frontend Framework:** React 19
+- **Backend Framework:** Node.js, Express.js
 - **Language:** TypeScript
 - **Build Tool:** Vite
-- **Testing:** Vitest, React Testing Library
+- **Database:** PostgreSQL
+- **Testing:** Vitest, Playwright
 - **Code Quality:** ESLint, Prettier
 - **State Management:** Zustand
 - **Internationalization:** i18next
 
 ## 3. Local Development with Docker
 
-This project is configured to run entirely within Docker containers. This eliminates the need to install Node.js or any other dependencies on your local machine.
+This project is configured to run entirely within Docker containers. This eliminates the need to install Node.js or any other dependencies on your local machine. The single command below will start the frontend, backend, and database services.
 
 ### Prerequisites
 
@@ -32,80 +33,115 @@ This project is configured to run entirely within Docker containers. This elimin
 1.  **Clone the repository:**
     ```bash
     git clone <repository_url>
+    cd 16x_imaus/team-task-manager
     ```
 
-2.  **Navigate to the project directory:**
+2.  **Build and start all services:**
+    This command builds the Docker images, installs all dependencies, and starts the frontend, backend, and database containers in detached mode.
     ```bash
-    cd team-task-manager
+    npm run dev:docker
     ```
-
-3.  **Build and start the containers:**
-    ```bash
-    docker-compose up --build
-    ```
-
-That's it! The command will build the Docker image for the first time, download the Nginx image, install all npm dependencies inside the container, and start the services.
 
 ### Accessing the Application
 
--   **Frontend:** Open your browser and go to `http://localhost:8080`.
--   The application is running with **Hot Module Replacement (HMR)**. Any changes you make to the source code on your local machine will be instantly reflected in the browser.
+-   **Frontend:** `http://localhost:5173`
+-   **Backend API:** `http://localhost:3001`
+-   **PostgreSQL Database (from host):** port `5434`
+-   The frontend application is running with **Hot Module Replacement (HMR)**. Any changes you make to the source code will be instantly reflected in the browser.
 
 ### Stopping the Application
 
--   To stop the containers, press `Ctrl + C` in the terminal where `docker-compose` is running.
+-   To stop all running containers:
+    ```bash
+    npm run stop:docker
+    ```
 
 ## 4. Development Tasks and Testing
 
-All development tasks (like linting, formatting, and testing) should be run inside the Docker container to ensure consistency. Open a **new terminal** (while the application is running in the other one) and use the following commands from the `team-task-manager` directory.
+All development tasks (like linting, formatting, and testing) should be run inside the appropriate Docker container to ensure consistency. Open a new terminal and use the following commands from the `team-task-manager` directory.
 
--   **Code Linting:**
+-   **Lint Frontend Code:**
     ```bash
-    docker-compose exec app npm run lint
+    docker-compose exec frontend npm run lint
     ```
 
--   **Code Formatting:**
+-   **Format Frontend Code:**
     ```bash
-    docker-compose exec app npm run format
+    docker-compose exec frontend npm run format
     ```
 
--   **Running Tests:**
+-   **Run Frontend Unit Tests:**
     ```bash
-    docker-compose run --rm app npm run test
+    docker-compose exec frontend npm run test
     ```
 
-## 5. Backend and Database
+## 5. Backend API Testing Guide (v2.1)
 
-The backend server and PostgreSQL database are also managed by Docker, but using a separate configuration for more granular control.
+This guide explains how to test the new backend features, specifically the **passwordless authentication** and **event logging**.
 
--   **To start the backend services (API server and database):**
-    ```bash
-    docker-compose -f server/docker-compose.yml up -d --build
+### Prerequisites
+
+- Your Docker environment is running (`npm run dev:docker`).
+- The backend server is accessible at `http://localhost:3001`.
+- The database has been initialized with the latest `server/database.sql` script.
+
+### Step 1: Test User Registration (Passwordless)
+
+Open a new terminal and use `curl` to send a POST request to register a new user.
+
+```bash
+curl -X POST http://localhost:3001/api/auth/register \
+-H "Content-Type: application/json" \
+-d '''{"name": "testuser", "email": "test@example.com"}'''
+```
+
+-   **Expected Result:**
+    You should receive a JSON response containing a JWT token, similar to this:
+    ```json
+    {"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."}
     ```
--   The backend API will be available, and the frontend application (running in its own Docker setup) will be able to communicate with it.
 
-<details>
-<summary>Expand for historical notes and previous test results</summary>
+### Step 2: Test User Login (Passwordless)
 
-### i18n Troubleshooting and Resolution
+Use the email you just registered to log in.
 
-**Problem:**
-Initially, the application's internationalization (i18n) system appeared to be broken. Language switching did not work on most pages (always displaying English), and the Hot Module Replacement (HMR) for UI changes (like adding the "DEMO" link to the header) was also inconsistent. Only the `/flow.html` page seemed to translate correctly.
+```bash
+curl -X POST http://localhost:3001/api/auth/login \
+-H "Content-Type: application/json" \
+-d '''{"email": "test@example.com"}'''
+```
 
-**Diagnosis and Root Cause:**
-Through systematic debugging, two primary issues were identified:
-1.  **Syntax Error in Fallback Language File:** The `public/locales/en-US.json` file contained a subtle syntax error (an improperly escaped quote in the `deleteConfirmation` key's value). This caused the `i18next-http-backend` to fail loading the default language pack, leading to the system falling back to displaying keys or hardcoded English strings. This critical error also likely interfered with Vite's HMR.
-2.  **Incomplete i18n Implementation in Header Components:** The `src/components/PublicHeader.tsx` (used on the homepage) and `src/components/Header.tsx` (used on internal pages like `/about.html` and `/flow.html`) components had hardcoded text strings ("ProjectFlow", "Home", "About", "DEMO") that were not utilizing the `useTranslation()` hook. This meant even if the language packs loaded, these specific texts would not update. The `/flow.html` page appeared to translate correctly because its child components (e.g., `FilterControls.tsx`) were correctly implemented with i18n.
+-   **Expected Result:**
+    You should again receive a JSON response containing a JWT token.
 
-**Resolution:**
-The following changes were implemented to resolve the i18n issues:
-1.  **`en-US.json` Fix:** Corrected the syntax error in `public/locales/en-US.json` by properly escaping the quote in the `deleteConfirmation` value.
-2.  **`PublicHeader.tsx` Internationalization:**
-    *   Ensured `useTranslation` hook was imported and called.
-    *   Replaced hardcoded strings ("ProjectFlow", "Home", "About") with `t()` calls using new keys (`header.title`, `header.nav.home`, `header.nav.about`).
-3.  **`Header.tsx` Internationalization:**
-    *   Imported and called the `useTranslation` hook.
-    *   Replaced hardcoded strings ("ProjectFlow", "Home", "About", "DEMO") with `t()` calls using existing and new keys (`header.title`, `header.nav.home`, `header.nav.about`, `header.nav.demo`).
-4.  **Language Pack Updates:** Added all new translation keys (`header.title`, `header.nav.home`, `header.nav.about`, `header.nav.demo`) to `en-US.json`, `zh-TW.json`, `ja-JP.json`, `ko-KR.json`, and `vi-VN.json` with appropriate translations.
+### Step 3: Verify Event Logs in Database
 
-</details>
+Now, check the database to confirm that the registration and login events were successfully logged.
+
+1.  **Find your database container name:**
+    ```bash
+    docker ps
+    ```
+    Look for a name like `task-manager-db-dev` in the list.
+
+2.  **Connect to the database using psql:**
+    Use the correct container name, user (`postgres`), and database name (`task_manager_dev`).
+    ```bash
+    docker exec -it task-manager-db-dev psql -U postgres -d task_manager_dev
+    ```
+
+3.  **Query the `event_logs` table:**
+    Inside the `psql` prompt, run the following SQL query:
+    ```sql
+    SELECT source, event_type, payload->>'email' as email FROM event_logs;
+    ```
+
+-   **Expected Result:**
+    You should see a table with two records, proving the events were written successfully:
+    ```
+       source    |   event_type    |      email
+    -------------+-----------------+------------------
+     ProjectFlow | USER_REGISTERED | test@example.com
+     ProjectFlow | USER_LOGGED_IN  | test@example.com
+    (2 rows)
+    ```
